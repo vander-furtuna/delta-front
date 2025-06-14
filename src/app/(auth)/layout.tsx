@@ -6,7 +6,7 @@ type AuthLayout = Readonly<{
 
 export function AuthLayout({ children }: AuthLayout) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 gap-16">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-16 p-8">
       {children}
     </div>
   )
