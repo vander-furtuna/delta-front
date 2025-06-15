@@ -27,6 +27,7 @@ const eslintConfig = [
           arrowParens: 'always',
         },
       ],
+      '@next/next/no-img-element': 'off',
     },
   },
 ]
