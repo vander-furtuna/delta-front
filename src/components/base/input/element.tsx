@@ -6,7 +6,6 @@ type InputElementProps = ComponentProps<'input'>
 export function InputElement({ ref, className, ...props }: InputElementProps) {
   return (
     <input
-      type="text"
       className={cn(
         'size-full shrink border-none bg-transparent outline-none',
         className,

@@ -9,7 +9,7 @@ export function InputIcon({ icon: Icon, className, ...rest }: InputIconProps) {
   return (
     <Icon
       weight="duotone"
-      className={cn('text-inherit', className)}
+      className={cn('size-6 text-inherit', className)}
       {...rest}
     />
   )

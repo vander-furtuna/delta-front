@@ -10,7 +10,10 @@ export function LabelElement({
 }: LabelElementProps) {
   return (
     <label
-      className={cn('text-sm leading-tight font-medium', className)}
+      className={cn(
+        'text-sm leading-tight font-medium text-inherit',
+        className,
+      )}
       {...props}
     >
       {children}

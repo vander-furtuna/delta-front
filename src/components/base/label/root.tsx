@@ -7,7 +7,7 @@ export function LabelRoot({ children, className, ...rest }: LabelRootProps) {
   return (
     <div
       className={cn(
-        'flex h-fit w-full items-center justify-start gap-1',
+        'text-foreground/70 flex h-fit w-full items-center justify-start gap-1',
         className,
       )}
       {...rest}

@@ -1,6 +1,7 @@
 'use client'
 
-import { TextInput } from '@/components/forms/input'
+import { PasswordInput } from '@/components/forms/password-input'
+import { TextInput } from '@/components/forms/text-input'
 import { AtIcon, LockIcon } from '@phosphor-icons/react'
 
 export function SignInForm() {
@@ -13,10 +14,9 @@ export function SignInForm() {
         placeholder="Ex: victor@email.com"
         required
       />
-      <TextInput
+      <PasswordInput
         icon={LockIcon}
         label="Senha"
-        type="password"
         placeholder="•••••••••"
         required
       />
