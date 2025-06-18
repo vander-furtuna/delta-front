@@ -8,7 +8,7 @@ type AuthLayout = Readonly<{
 
 export default function AuthLayout({ children }: AuthLayout) {
   return (
-    <main className="flex h-screen w-full gap-4 p-4">
+    <main className="flex h-dvh w-full gap-4 p-4">
       <article className="bg-primary/20 hidden w-full items-center justify-center rounded-2xl px-8 sm:flex">
         <img
           src={authFigure.src}

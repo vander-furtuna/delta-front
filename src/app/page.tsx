@@ -12,7 +12,7 @@ export default function Home() {
   }, [push])
 
   return (
-    <main className="flex h-screen w-full items-center justify-center">
+    <main className="flex h-dvh w-full items-center justify-center">
       <Logo className="size-32" />
     </main>
   )
