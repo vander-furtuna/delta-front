@@ -3,25 +3,16 @@
 import { Button } from '@/components/forms/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
+import { passwordValidation, usernameValidation } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AtIcon, LockIcon } from '@phosphor-icons/react'
+import { LockIcon, UserIcon } from '@phosphor-icons/react'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const signInFormSchema = z.object({
-  email: z
-    .string({
-      required_error: 'Email é obrigatório',
-    })
-    .email({
-      message: 'Email inválido',
-    }),
-  password: z
-    .string({
-      required_error: 'Senha é obrigatória',
-    })
-    .min(6, 'Senha deve ter pelo menos 6 caracteres'),
+  username: usernameValidation,
+  password: passwordValidation,
 })
 
 type SignInFormData = z.infer<typeof signInFormSchema>
@@ -30,7 +21,7 @@ export function SignInForm() {
   const { control, handleSubmit } = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   })
@@ -47,14 +38,14 @@ export function SignInForm() {
       onSubmit={handleSubmit(handleSignIn)}
     >
       <Controller
-        name="email"
+        name="username"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <TextInput
-            icon={AtIcon}
-            label="Email"
-            type="email"
-            placeholder="Ex: victor@email.com"
+            icon={UserIcon}
+            label="Nome de Usuário"
+            type="text"
+            placeholder="Ex: victor_"
             error={error?.message}
             {...field}
           />
