@@ -50,9 +50,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-br" className="dark">
+    <html lang="pt-br">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} play font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground font-sans antialiased`}
       >
         {children}
       </body>
