@@ -3,6 +3,7 @@
 import { Button } from '@/components/forms/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
+import { passwordValidation, usernameValidation } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AtIcon, LockIcon, UserIcon } from '@phosphor-icons/react'
 import { useCallback } from 'react'
@@ -11,12 +12,7 @@ import { z } from 'zod'
 
 const signUpFormSchema = z
   .object({
-    username: z
-      .string({
-        required_error: 'Nome de usuário é obrigatório',
-      })
-      .min(2, 'Nome de usuário deve ter pelo menos 2 caracteres')
-      .max(100, 'Nome de usuário deve ter no máximo 100 caracteres'),
+    username: usernameValidation,
     email: z
       .string({
         required_error: 'Email é obrigatório',
@@ -24,16 +20,10 @@ const signUpFormSchema = z
       .email({
         message: 'Email inválido',
       }),
-    password: z
-      .string({
-        required_error: 'Senha é obrigatória',
-      })
-      .min(6, 'Senha deve ter pelo menos 6 caracteres'),
-    confirmPassword: z
-      .string({
-        required_error: 'Confirmação de senha é obrigatória',
-      })
-      .min(6, 'Confirmação de senha deve ter pelo menos 6 caracteres'),
+    password: passwordValidation,
+    confirmPassword: z.string({
+      required_error: 'Confirmação de senha é obrigatória',
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'As senhas não coincidem',
