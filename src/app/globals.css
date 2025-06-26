@@ -155,6 +155,7 @@
 
 @utility icon-primary {
   & svg path[opacity="0.2"] {
+    opacity: 0.6;
     fill: currentColor;
     color: var(--primary);
   }
@@ -162,6 +163,7 @@
  
 @utility icon-pratice {
   & svg path[opacity="0.2"] {
+    opacity: 0.6;
     fill: currentColor;
     color: var(--pratice);
   }
@@ -169,6 +171,7 @@
 
 @utility icon-hike {
   & svg path[opacity="0.2"] {
+    opacity: 0.6;
     fill: currentColor;
     color: var(--hike);
   }
@@ -176,6 +179,7 @@
 
 @utility icon-monitore {
   & svg path[opacity="0.2"] {
+    opacity: 0.6;
     fill: currentColor;
     color: var(--monitore);
   }
@@ -183,6 +187,7 @@
 
 @utility icon-play {
   & svg path[opacity="0.2"] {
+    opacity: 0.6;
     fill: currentColor;
     color: var(--play);
   }
