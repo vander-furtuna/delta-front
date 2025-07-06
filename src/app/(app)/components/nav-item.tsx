@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 import type { ComponentProps } from 'react'
 
 const navItemVariants = cva(
-  'flex h-12 w-full items-center gap-2 rounded-md bg-transparent px-2 transition-colors ease-in-out data-[state=active]:bg-primary/60',
+  'flex h-12 w-full items-center gap-2 rounded-md bg-transparent px-3 transition-colors ease-in-out data-[state=active]:bg-primary/60',
   {
     variants: {
       color: {

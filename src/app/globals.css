@@ -43,22 +43,22 @@
   --play: oklch(0.7216 0.1773 37.89);
 }
 
-.pratice {
+@utility pratice {
   --primary: var(--pratice);
   --primary-foreground: oklch(0.145 0 0);
 }
 
-.hike {
+@utility hike {
   --primary: var(--hike);
   --primary-foreground: oklch(0.145 0 0);
 }
 
-.monitore {
+@utility  monitore {
   --primary: var(--monitore);
   --primary-foreground: oklch(0.145 0 0);
 }
 
-.play {
+@utility play {
   --primary: var(--play);
   --primary-foreground: oklch(0.145 0 0);
 }

@@ -1,14 +1,19 @@
+import type { AuthResponse } from '@/types/auth'
 import { api } from '../api'
 
-type SignInBody = {
+export type SignInBody = {
   username: string
   password: string
 }
 
-export async function signIn({ username, password }: SignInBody) {
-  const { data } = await api.post('/home/login', {
+export async function signInService({
+  username,
+  password,
+}: SignInBody): Promise<AuthResponse> {
+  const { data } = await api.post<AuthResponse>('/auth/login', {
     username,
     password,
   })
+
   return data
 }

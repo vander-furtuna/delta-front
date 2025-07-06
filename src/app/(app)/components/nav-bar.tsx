@@ -9,6 +9,7 @@ import {
 } from '@phosphor-icons/react'
 import { NavItem } from './nav-item'
 import type { Icon } from '@phosphor-icons/react'
+import { AccountMenu } from '@/components/account-dialog'
 
 type NavItem = {
   icon: Icon
@@ -45,7 +46,7 @@ const navItems: NavItem[] = [
 ]
 export function Navbar() {
   return (
-    <aside className="border-border flex h-full w-64 shrink-0 flex-col items-start gap-16 border-r px-5 py-5">
+    <aside className="border-border flex h-full w-64 shrink-0 flex-col items-start gap-16 border-r px-4 py-5">
       <Logo className="h-10" />
 
       <nav className="h-fit w-full">
@@ -62,6 +63,8 @@ export function Navbar() {
           ))}
         </ul>
       </nav>
+
+      <AccountMenu />
     </aside>
   )
 }

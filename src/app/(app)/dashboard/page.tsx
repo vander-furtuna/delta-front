@@ -1,8 +1,3 @@
 export default function DashboardPage() {
-  return (
-    <article className="w-full">
-      <h1>Dashboard</h1>
-      <p>Welcome to your dashboard!</p>
-    </article>
-  )
+  return <article className="flex w-full flex-col gap-2"></article>
 }

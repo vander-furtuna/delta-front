@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 import { ThemeProvider } from 'next-themes'
+import { UserProvider } from '@/contexts/user/user-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -53,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground has-[article[data-color="hike"]]:hike has-[article[data-color="pratice"]]:pratice has-[article[data-color="monitore"]]:monitore has-[article[data-color="play"]]:play font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -61,8 +63,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <UserProvider>{children}</UserProvider>
         </ThemeProvider>
+        <Toaster richColors />
       </body>
     </html>
   )

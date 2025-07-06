@@ -1,12 +1,29 @@
+'use client'
+
 import { Logo } from '@/components/logo'
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import authFigure from '@/assets/auth-figure.svg'
+import { useRouter } from 'next/navigation'
+import { useUser } from '@/hooks/contexts/use-user'
 
 type AuthLayout = Readonly<{
   children: ReactNode
 }>
 
 export default function AuthLayout({ children }: AuthLayout) {
+  const { push } = useRouter()
+  const { user, isUserLoading } = useUser()
+
+  useEffect(() => {
+    if (!isUserLoading) {
+      if (user) {
+        return push('/dashboard')
+      } else {
+        push('/entrar')
+      }
+    }
+  }, [isUserLoading, user, push])
+
   return (
     <main className="flex h-dvh w-full gap-4 p-4">
       <article className="bg-primary/20 hidden w-full items-center justify-center rounded-2xl px-8 sm:flex">

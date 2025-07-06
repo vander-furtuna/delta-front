@@ -6,7 +6,7 @@ import type { ComponentProps } from 'react'
 type TextInputProps = {
   icon?: Icon
   error?: string
-  label: string
+  label?: string
 } & ComponentProps<'input'>
 
 export function TextInput({
