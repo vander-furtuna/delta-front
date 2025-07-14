@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
-import { ThemeProvider } from 'next-themes'
-import { UserProvider } from '@/contexts/user/user-provider'
-import { Toaster } from '@/components/ui/sonner'
+import { AppProvider } from './app-provider'
+import type { ReactNode } from 'react'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -50,22 +49,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) {
   return (
     <html lang="pt-br">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground has-[article[data-color="hike"]]:hike has-[article[data-color="pratice"]]:pratice has-[article[data-color="monitore"]]:monitore has-[article[data-color="play"]]:play font-sans antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <UserProvider>{children}</UserProvider>
-        </ThemeProvider>
-        <Toaster richColors />
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   )

@@ -34,8 +34,8 @@ const navItems: NavItem[] = [
   {
     icon: BarbellIcon,
     color: 'pratice',
-    href: '/praticas',
-    label: 'Práticas',
+    href: '/atividades',
+    label: 'Atividades',
   },
   {
     icon: GraduationCapIcon,

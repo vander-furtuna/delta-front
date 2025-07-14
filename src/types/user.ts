@@ -1,4 +1,5 @@
 export type Role = 'STUDENT' | 'MONITOR' | 'ADMIN'
+
 export type User = {
   id: number
   username: string
