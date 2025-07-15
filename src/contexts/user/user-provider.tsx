@@ -10,6 +10,7 @@ import { getRefreshToken } from '@/storage/local/get-refresh-token'
 import { saveRefreshToken } from '@/storage/local/save-refresh-token'
 import { signOutService } from '@/services/auth/sign-out'
 import { removeRefreshToken } from '@/storage/local/remove-refrash-token'
+import { getUserInfoService } from '@/services/auth/get-user-info'
 
 export type UserContextProps = {
   user: User | null
@@ -29,19 +30,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       password,
     })
 
-    const { userbasicDTO } = refreshTokenDTO
-
     setToken(tokenInfoValue)
 
     api.defaults.headers.common.Authorization = `Bearer ${tokenInfoValue.token}`
 
     saveRefreshToken(refreshTokenDTO.token)
 
-    const user: User = {
-      id: userbasicDTO.id,
-      username: userbasicDTO.username,
-      role: userbasicDTO.role,
-    }
+    const user = await getUserInfoService()
 
     setUser(user)
   }, [])
@@ -62,13 +57,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       console.log('Token info:', tokenInfo)
 
       setToken(tokenInfo.tokenInfoValue)
-      setUser({
-        id: tokenInfo.refreshTokenDTO.userbasicDTO.id,
-        username: tokenInfo.refreshTokenDTO.userbasicDTO.username,
-        role: tokenInfo.refreshTokenDTO.userbasicDTO.role,
-      })
-
       saveRefreshToken(tokenInfo.refreshTokenDTO.token)
+      api.defaults.headers.common.Authorization = `Bearer ${tokenInfo.tokenInfoValue.token}`
+
+      const user = await getUserInfoService()
+      setUser(user)
     } catch {
       setToken(null)
       setUser(null)

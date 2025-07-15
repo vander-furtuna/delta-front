@@ -78,19 +78,23 @@ export function ActivitiesFilter() {
 
   const handleFilterSubmit = (data: ActivitiesFilterFormData) => {
     const params = new URLSearchParams()
-    if (data.query) {
+    if (data.query && data.query.trim() !== '') {
       params.set('query', data.query)
+    } else {
+      params.delete('query')
     }
     if (data.status) {
       params.set('status', data.status)
+    } else {
+      params.delete('status')
     }
     if (data.activityType) {
       params.set('activityType', data.activityType)
+    } else {
+      params.delete('activityType')
     }
     // Update the URL with the new search parameters
     window.history.replaceState({}, '', `?${params.toString()}`)
-
-    console.log('Filter submitted:', data)
   }
 
   return (

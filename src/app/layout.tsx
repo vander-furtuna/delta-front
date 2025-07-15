@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground has-[article[data-color="hike"]]:hike has-[article[data-color="pratice"]]:pratice has-[article[data-color="monitore"]]:monitore has-[article[data-color="play"]]:play font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground has-[article[data-color="hike"]]:hike has-[article[data-color="pratice"]]:pratice has-[article[data-color="monitore"]]:monitore has-[article[data-color="play"]]:play overflow-hidden font-sans antialiased`}
       >
         <AppProvider>{children}</AppProvider>
       </body>

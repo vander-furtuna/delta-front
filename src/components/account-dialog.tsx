@@ -1,3 +1,5 @@
+'use client'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,14 +16,19 @@ import {
   SparkleIcon,
   SunIcon,
   MoonIcon,
+  ArrowRightIcon,
 } from '@phosphor-icons/react'
 
 import { useTheme } from 'next-themes'
 import { useUser } from '@/hooks/contexts/use-user'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
+import CompleteProfileDialog from './complete-profile-dialog'
 
 export function AccountMenu() {
+  const [isCompleteProfileDialogOpen, setCompleteProfileDialogOpen] =
+    useState(false)
+
   const { signOut } = useUser()
   const { theme, setTheme } = useTheme()
 
@@ -38,7 +45,11 @@ export function AccountMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <CompleteProfileDialog
+        open={isCompleteProfileDialogOpen}
+        onOpenChange={(open) => setCompleteProfileDialogOpen(open)}
+      />
+      <DropdownMenuTrigger asChild className="outline-none">
         <UserAvatar className="mt-auto" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
@@ -69,6 +80,17 @@ export function AccountMenu() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          className="bg-primary/10"
+          onClick={() => setCompleteProfileDialogOpen(true)}
+        >
+          <div className="bg-primary size-2 animate-pulse rounded-full" />
+          Completar Perfil
+          <DropdownMenuShortcut>
+            <ArrowRightIcon className="text-primary" />
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
 
         <DropdownMenuItem
           className="text-destructive hover:bg-destructive/10 focus:bg-destructive/10 hover:text-destructive focus:text-destructive"

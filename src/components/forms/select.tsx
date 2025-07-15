@@ -1,6 +1,12 @@
 'use client'
 
-import { useId, type ComponentProps, type ReactNode } from 'react'
+import {
+  useCallback,
+  useId,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+} from 'react'
 
 import {
   Select as SelectPrimitive,
@@ -9,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { XIcon } from '@phosphor-icons/react'
+import { Button } from '../ui/button'
 
 export type Options = {
   value: string
@@ -19,12 +27,35 @@ export type Options = {
 type SelectProps = {
   options: Options[]
   placeholder?: string
+  onValueChange?: (value: string | undefined) => void
 } & ComponentProps<typeof SelectPrimitive>
 
-export function Select({ options, placeholder, ...props }: SelectProps) {
+export function Select({
+  options,
+  placeholder,
+  value,
+  onValueChange,
+  ...props
+}: SelectProps) {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(value)
+
+  const handleValueChange = useCallback(
+    (value: string | undefined) => {
+      setSelectedValue(value ?? '')
+      if (onValueChange) {
+        onValueChange(value)
+      }
+    },
+    [onValueChange],
+  )
+
   const id = useId()
   return (
-    <SelectPrimitive {...props}>
+    <SelectPrimitive
+      {...props}
+      value={selectedValue}
+      onValueChange={handleValueChange}
+    >
       <SelectTrigger
         id={id}
         className="[&>span_svg]:text-muted-foreground/80 bg-accent dark:bg-accent focus:border-primary dark:focus:border-primary h-12! border-0 border-b-2 ring-0 [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_svg]:shrink-0"
@@ -38,6 +69,15 @@ export function Select({ options, placeholder, ...props }: SelectProps) {
             <span className="truncate">{option.label}</span>
           </SelectItem>
         ))}
+
+        <Button
+          onClick={() => handleValueChange(undefined)}
+          variant="ghost"
+          className="bg-accent w-full"
+        >
+          <XIcon className="text-muted-foreground/80 size-4" weight="duotone" />
+          Limpar
+        </Button>
       </SelectContent>
     </SelectPrimitive>
   )

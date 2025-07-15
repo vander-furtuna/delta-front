@@ -30,7 +30,10 @@ export function UserAvatar({ className, ...rest }: UserAvatarProps) {
       {...rest}
     >
       <div className="flex w-full items-center gap-2">
-        <div className="bg-primary/30 flex size-10 items-center justify-center rounded-full">
+        <div className="bg-primary/30 relative flex size-10 items-center justify-center rounded-full">
+          {!user?.profile && (
+            <div className="bg-primary absolute top-0 right-1 size-2 animate-pulse rounded-full" />
+          )}
           <span className="font-heading leading-tight font-semibold uppercase">
             {firstLetter}
           </span>

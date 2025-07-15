@@ -3,11 +3,14 @@
 import { Button } from '@/components/forms/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
+import { signUpService } from '@/services/auth/sign-up'
 import { passwordValidation, usernameValidation } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AtIcon, LockIcon, UserIcon } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const signUpFormSchema = z
@@ -33,19 +36,37 @@ const signUpFormSchema = z
 type SignUpFormData = z.infer<typeof signUpFormSchema>
 
 export function SignUpForm() {
+  const { push } = useRouter()
+
   const { control, handleSubmit } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: '',
       password: '',
+      username: '',
+      confirmPassword: '',
     },
   })
 
-  const handleSignUp = useCallback((data: SignUpFormData) => {
-    // Handle sign-in logic here
-    console.log('Sign In Data:', data)
-    // You can call an API or perform any other action with the data
-  }, [])
+  const handleSignUp = useCallback(
+    async ({ password, email, username }: SignUpFormData) => {
+      try {
+        await signUpService({
+          username,
+          email,
+          password,
+        })
+
+        toast.success('Registro realizado com sucesso! :D')
+
+        push('/entrar')
+      } catch (error) {
+        toast.error('Não foi possível realizar registro. Tente novamente :(')
+        console.error('Error during sign up:', error)
+      }
+    },
+    [push],
+  )
 
   return (
     <form
@@ -94,7 +115,7 @@ export function SignUpForm() {
         )}
       />
       <Controller
-        name="password"
+        name="confirmPassword"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <PasswordInput

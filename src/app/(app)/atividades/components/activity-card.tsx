@@ -56,12 +56,15 @@ export function ActivityCard({ activity, ...props }: ActivityCardProps) {
   }, [activity.status])
 
   return (
-    <div className="bg-accent min-w-48 overflow-hidden rounded-md" {...props}>
+    <div
+      className="bg-accent h-56 min-w-48 shrink-0 overflow-hidden rounded-md"
+      {...props}
+    >
       <div className="bg-primary relative flex h-24 w-full items-center justify-center">
         {ActivityTypeIcon && (
-          <div className="bg-accent/50 absolute size-fit rounded-full p-2">
+          <div className="absolute size-fit rounded-full bg-stone-700/50 p-2">
             <ActivityTypeIcon
-              className="text-primary/90 size-8"
+              className="text-primary size-8"
               weight="duotone"
             />
           </div>
@@ -72,8 +75,8 @@ export function ActivityCard({ activity, ...props }: ActivityCardProps) {
           className="size-full object-cover"
         />
       </div>
-      <div className="flex flex-col items-start gap-3 p-3">
-        <span className="h-12 text-base font-medium first-letter:uppercase">
+      <div className="flex h-fit flex-col items-start gap-1 p-3">
+        <span className="h-12 text-base leading-tight font-medium first-letter:uppercase">
           {activity.title}
         </span>
 
