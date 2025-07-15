@@ -29,7 +29,7 @@ export function AccountMenu() {
   const [isCompleteProfileDialogOpen, setCompleteProfileDialogOpen] =
     useState(false)
 
-  const { signOut } = useUser()
+  const { signOut, user } = useUser()
   const { theme, setTheme } = useTheme()
 
   const handleSignOut = useCallback(async () => {
@@ -81,16 +81,18 @@ export function AccountMenu() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem
-          className="bg-primary/10"
-          onClick={() => setCompleteProfileDialogOpen(true)}
-        >
-          <div className="bg-primary size-2 animate-pulse rounded-full" />
-          Completar Perfil
-          <DropdownMenuShortcut>
-            <ArrowRightIcon className="text-primary" />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
+        {!user?.profile && (
+          <DropdownMenuItem
+            className="bg-primary/10"
+            onClick={() => setCompleteProfileDialogOpen(true)}
+          >
+            <div className="bg-primary size-2 animate-pulse rounded-full" />
+            Completar Perfil
+            <DropdownMenuShortcut>
+              <ArrowRightIcon className="text-primary" />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem
           className="text-destructive hover:bg-destructive/10 focus:bg-destructive/10 hover:text-destructive focus:text-destructive"

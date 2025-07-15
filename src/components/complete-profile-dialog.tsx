@@ -1,6 +1,6 @@
 'use client'
 
-import { type ComponentProps } from 'react'
+import { useCallback, type ComponentProps } from 'react'
 import { ImagePlusIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -16,12 +16,51 @@ import {
 import { TextInput } from './forms/text-input'
 import { AtIcon, PhoneIcon, UserIcon } from '@phosphor-icons/react'
 import { Textarea } from './forms/textarea'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { completeProfileService } from '@/services/account/complete-profile'
+import { toast } from 'sonner'
 
 type CompleteProfileDialogProps = ComponentProps<typeof Dialog>
+
+const completeProfileSchema = z.object({
+  fullName: z.string().min(1, 'Nome completo é obrigatório'),
+  phoneNumber: z.string().min(1, 'Número de telefone é obrigatório'),
+  bio: z.string().optional(),
+})
+
+type CompleteProfileFormData = z.infer<typeof completeProfileSchema>
 
 export default function CompleteProfileDialog({
   ...props
 }: CompleteProfileDialogProps) {
+  const { control, handleSubmit } = useForm<CompleteProfileFormData>({
+    resolver: zodResolver(completeProfileSchema),
+    defaultValues: {
+      fullName: '',
+      phoneNumber: '',
+      bio: '',
+    },
+  })
+
+  const handleCompleteProfile = useCallback(
+    async ({ fullName, phoneNumber, bio }: CompleteProfileFormData) => {
+      try {
+        await completeProfileService({
+          fullName,
+          phoneNumber,
+          bio,
+        })
+        toast.success('Perfil completado com sucesso!')
+      } catch (error) {
+        console.error('Error completing profile:', error)
+        toast.error('Não foi possível completar perfil. :( Tente novamente.')
+      }
+    },
+    [],
+  )
+
   return (
     <Dialog {...props} modal>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-md [&>button:last-child]:top-3.5">
@@ -48,10 +87,52 @@ export default function CompleteProfileDialog({
             </div>
           </div>
           <div className="px-6 pt-4 pb-6">
-            <form className="space-y-4">
-              <TextInput label="Nome completo" icon={UserIcon} />
-              <TextInput label="Número de Telefone" icon={PhoneIcon} />
-              <Textarea label="Bio" icon={AtIcon} />
+            <form
+              className="space-y-4"
+              id="complete-profile-form"
+              onSubmit={handleSubmit(handleCompleteProfile)}
+            >
+              <Controller
+                name="fullName"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextInput
+                    icon={UserIcon}
+                    label="Nome completo"
+                    type="text"
+                    placeholder="Ex: Delta Furtado"
+                    error={error?.message}
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                name="phoneNumber"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextInput
+                    icon={PhoneIcon}
+                    label="Número de Telefone"
+                    type="text"
+                    placeholder="Ex: (11) 91234-5678"
+                    error={error?.message}
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                name="bio"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <Textarea
+                    icon={AtIcon}
+                    label="Bio"
+                    placeholder="Fale um pouco sobre você..."
+                    error={error?.message}
+                    {...field}
+                  />
+                )}
+              />
             </form>
           </div>
         </div>
@@ -62,7 +143,9 @@ export default function CompleteProfileDialog({
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button type="button">Completar</Button>
+            <Button type="submit" form="complete-profile-form">
+              Completar
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
