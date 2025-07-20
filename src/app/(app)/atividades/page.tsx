@@ -1,18 +1,20 @@
+import { Suspense } from 'react'
 import { ActivitiesFilter } from './components/activities-filter'
 import { ActivitiesList } from './components/activities-list'
 
 export default function ActivitiesPage() {
   return (
     <article className="flex h-dvh w-full overflow-y-auto" data-color="pratice">
-      <section className="flex h-dvh w-full flex-col gap-8 px-8 py-8">
-        <div className="flex w-full items-center justify-between gap-4">
-          <h1 className="font-heading text-4xl font-semibold">Atividades</h1>
+      <Suspense>
+        <section className="flex h-dvh w-full flex-col gap-8 px-8 py-8">
+          <div className="flex w-full items-center justify-between gap-4">
+            <h1 className="font-heading text-4xl font-semibold">Atividades</h1>
+            <ActivitiesFilter />
+          </div>
 
-          <ActivitiesFilter />
-        </div>
-
-        <ActivitiesList />
-      </section>
+          <ActivitiesList />
+        </section>
+      </Suspense>
     </article>
   )
 }
