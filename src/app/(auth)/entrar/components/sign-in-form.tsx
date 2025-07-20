@@ -3,43 +3,50 @@
 import { Button } from '@/components/forms/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
+import { useUser } from '@/hooks/contexts/use-user'
+import { passwordValidation, usernameValidation } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AtIcon, LockIcon } from '@phosphor-icons/react'
+import { LockIcon, UserIcon } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const signInFormSchema = z.object({
-  email: z
-    .string({
-      required_error: 'Email é obrigatório',
-    })
-    .email({
-      message: 'Email inválido',
-    }),
-  password: z
-    .string({
-      required_error: 'Senha é obrigatória',
-    })
-    .min(6, 'Senha deve ter pelo menos 6 caracteres'),
+  username: usernameValidation,
+  password: passwordValidation,
 })
 
 type SignInFormData = z.infer<typeof signInFormSchema>
 
 export function SignInForm() {
+  const { push } = useRouter()
+  const { signIn } = useUser()
+
   const { control, handleSubmit } = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   })
 
-  const handleSignIn = useCallback((data: SignInFormData) => {
-    // Handle sign-in logic here
-    console.log('Sign In Data:', data)
-    // You can call an API or perform any other action with the data
-  }, [])
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        await signIn(data)
+
+        toast.success('Login realizado com sucesso!')
+
+        push('/dashboard')
+      } catch (error) {
+        console.error('Error during sign in:', error)
+        toast.error('Erro ao realizar login. :(')
+      }
+    },
+    [signIn, push],
+  )
 
   return (
     <form
@@ -47,14 +54,14 @@ export function SignInForm() {
       onSubmit={handleSubmit(handleSignIn)}
     >
       <Controller
-        name="email"
+        name="username"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <TextInput
-            icon={AtIcon}
-            label="Email"
-            type="email"
-            placeholder="Ex: victor@email.com"
+            icon={UserIcon}
+            label="Nome de Usuário"
+            type="text"
+            placeholder="Ex: victor_"
             error={error?.message}
             {...field}
           />

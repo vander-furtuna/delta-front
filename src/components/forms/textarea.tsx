@@ -3,28 +3,22 @@ import { Input } from '../base/input'
 import { Label } from '../base/label'
 import type { ComponentProps } from 'react'
 
-type TextInputProps = {
+type TextareaProps = {
   icon?: Icon
   error?: string
   label?: string
-} & ComponentProps<'input'>
+} & ComponentProps<'textarea'>
 
-export function TextInput({
-  icon,
-  label,
-  error,
-  ref,
-  ...rest
-}: TextInputProps) {
+export function Textarea({ icon, label, error, ref, ...rest }: TextareaProps) {
   return (
     <Input.Root>
-      <Input.Container>
+      <Input.Container className="h-24">
         <Input.Content>
           <Label.Root>
             {icon && <Label.Icon icon={icon} />}
             <Label.Element>{label}</Label.Element>
           </Label.Root>
-          <Input.Element ref={ref} {...rest} />
+          <Input.TextareaElement ref={ref} {...rest} />
         </Input.Content>
       </Input.Container>
       {error && <Input.Error message={error} />}

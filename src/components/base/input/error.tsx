@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { InfoIcon } from '@phosphor-icons/react'
+import { InfoIcon } from '@phosphor-icons/react/ssr'
 import type { ComponentProps } from 'react'
 
 type InputErrorProps = ComponentProps<'div'> & {

@@ -36,25 +36,30 @@
   --sidebar-ring: oklch(0.709 0.01 56.259);
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
+
+  --pratice: oklch(0.8968 0.1325 90.01);
+  --hike: oklch(0.906 0.0547 233.23);
+  --monitore: oklch(0.8434 0.0969 304.85);
+  --play: oklch(0.7216 0.1773 37.89);
 }
 
-.pratice {
-  --primary: oklch(0.8968 0.1325 90.01);
+@utility pratice {
+  --primary: var(--pratice);
   --primary-foreground: oklch(0.145 0 0);
 }
 
-.hike {
-  --primary: oklch(0.906 0.0547 233.23);
+@utility hike {
+  --primary: var(--hike);
   --primary-foreground: oklch(0.145 0 0);
 }
 
-.monitore {
-  --primary: oklch(0.8434 0.0969 304.85);
+@utility  monitore {
+  --primary: var(--monitore);
   --primary-foreground: oklch(0.145 0 0);
 }
 
-.play {
-  --primary: oklch(0.7216 0.1773 37.89);
+@utility play {
+  --primary: var(--play);
   --primary-foreground: oklch(0.145 0 0);
 }
 
@@ -127,6 +132,12 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  --color-pratice: var(--pratice);
+  --color-hike: var(--hike);
+  --color-monitore: var(--monitore);
+  --color-play: var(--play);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -139,5 +150,45 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@utility icon-primary {
+  & svg path[opacity="0.2"] {
+    opacity: 0.6;
+    fill: currentColor;
+    color: var(--primary);
+  }
+}
+ 
+@utility icon-pratice {
+  & svg path[opacity="0.2"] {
+    opacity: 0.6;
+    fill: currentColor;
+    color: var(--pratice);
+  }
+} 
+
+@utility icon-hike {
+  & svg path[opacity="0.2"] {
+    opacity: 0.6;
+    fill: currentColor;
+    color: var(--hike);
+  }
+}
+
+@utility icon-monitore {
+  & svg path[opacity="0.2"] {
+    opacity: 0.6;
+    fill: currentColor;
+    color: var(--monitore);
+  }
+}
+
+@utility icon-play {
+  & svg path[opacity="0.2"] {
+    opacity: 0.6;
+    fill: currentColor;
+    color: var(--play);
   }
 }
