@@ -52,7 +52,7 @@ export default function RootLayout({
   children: ReactNode
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${clashDisplay.variable} pratice bg-background text-foreground has-[article[data-color="hike"]]:hike has-[article[data-color="pratice"]]:pratice has-[article[data-color="monitore"]]:monitore has-[article[data-color="play"]]:play overflow-hidden font-sans antialiased`}
       >
