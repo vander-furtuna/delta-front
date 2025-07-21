@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/forms/button'
+import { Button } from '@/components/ui/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
 import { useUser } from '@/hooks/contexts/use-user'
@@ -80,7 +80,17 @@ export function SignInForm() {
           />
         )}
       />
-      <Button>Entrar</Button>
+      <div className="flex w-full flex-col gap-2">
+        <Button size="xl">Entrar</Button>
+        <Button
+          variant="ghost"
+          size="lg"
+          type="button"
+          onClick={() => push('/esqueceu-a-senha')}
+        >
+          Esqueci a senha
+        </Button>
+      </div>
     </form>
   )
 }
