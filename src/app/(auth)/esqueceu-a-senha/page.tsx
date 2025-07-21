@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ForgetPasswordForm } from './components/forget-password-form'
 
-export default function LoginPage() {
+export default function ForgetPasswordPage() {
   return (
     <div className="flex w-full flex-col gap-8">
       <div className="flex w-full flex-col gap-2">
@@ -9,7 +9,7 @@ export default function LoginPage() {
           Esqueceu a Senha?
         </h1>
         <p className="text-muted-foreground w-4/5 text-sm">
-          Entre com sua conta para acessar o <strong>delta</strong>.
+          Informe seu email para receber as instruções de recuperação de senha.
         </p>
       </div>
 
