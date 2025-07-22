@@ -75,8 +75,8 @@ export function ActivityCard({ activity, ...props }: ActivityCardProps) {
           className="size-full object-cover"
         />
       </div>
-      <div className="flex h-fit flex-col items-start gap-1 p-3">
-        <span className="h-12 text-base leading-tight font-medium first-letter:uppercase">
+      <div className="flex h-fit w-full flex-col items-start gap-1 p-3">
+        <span className="two-lines-ellipses h-10 w-full overflow-hidden text-base leading-tight font-medium overflow-ellipsis first-letter:uppercase">
           {activity.title}
         </span>
 
