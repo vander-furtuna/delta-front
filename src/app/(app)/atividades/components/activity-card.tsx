@@ -10,11 +10,12 @@ import {
   FlagPennantIcon,
   HourglassSimpleLowIcon,
 } from '@phosphor-icons/react'
+import Link from 'next/link'
 import { useMemo, type ComponentProps } from 'react'
 
 type ActivityCardProps = {
   activity: Activity
-} & ComponentProps<'div'>
+} & Omit<ComponentProps<typeof Link>, 'href'>
 
 export function ActivityCard({ activity, ...props }: ActivityCardProps) {
   const ActivityTypeIcon = useMemo(() => {
@@ -56,13 +57,14 @@ export function ActivityCard({ activity, ...props }: ActivityCardProps) {
   }, [activity.status])
 
   return (
-    <div
-      className="bg-accent h-56 min-w-48 shrink-0 overflow-hidden rounded-md"
+    <Link
+      className="bg-accent hover:bg-accent/80 hover: h-56 min-w-48 shrink-0 cursor-pointer overflow-hidden rounded-md transition-colors"
       {...props}
+      href={`/atividades/${activity.id}`}
     >
       <div className="bg-primary relative flex h-24 w-full items-center justify-center">
         {ActivityTypeIcon && (
-          <div className="absolute size-fit rounded-full bg-stone-700/50 p-2">
+          <div className="absolute size-fit rounded-full bg-stone-700/50 p-2 backdrop-blur-xs">
             <ActivityTypeIcon
               className="text-primary size-8"
               weight="duotone"
@@ -75,7 +77,7 @@ export function ActivityCard({ activity, ...props }: ActivityCardProps) {
           className="size-full object-cover"
         />
       </div>
-      <div className="flex h-fit w-full flex-col items-start gap-1 p-3">
+      <div className="flex h-fit w-full flex-col items-start gap-3 p-3">
         <span className="two-lines-ellipses h-10 w-full overflow-hidden text-base leading-tight font-medium overflow-ellipsis first-letter:uppercase">
           {activity.title}
         </span>
@@ -101,6 +103,6 @@ export function ActivityCard({ activity, ...props }: ActivityCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

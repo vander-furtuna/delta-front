@@ -46,7 +46,9 @@ export function NavItem({
           className,
           color,
         })}
-        data-state={currentPath === href ? 'active' : 'inactive'}
+        data-state={
+          currentPath.includes(href.toString()) ? 'active' : 'inactive'
+        }
         href={href}
         {...props}
       >
