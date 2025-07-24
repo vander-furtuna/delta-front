@@ -63,6 +63,13 @@
   --primary-foreground: oklch(0.145 0 0);
 }
 
+@utility two-lines-ellipses {
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
 .dark {
   --background: oklch(0.147 0.004 49.25);
   --foreground: oklch(0.985 0.001 106.423);

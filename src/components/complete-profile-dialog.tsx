@@ -19,7 +19,7 @@ import { Textarea } from './forms/textarea'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { completeProfileService } from '@/services/account/complete-profile'
+import { completeProfileService } from '@/services/account/complete-profile-service'
 import { toast } from 'sonner'
 
 type CompleteProfileDialogProps = ComponentProps<typeof Dialog>

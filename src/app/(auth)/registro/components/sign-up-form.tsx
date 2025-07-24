@@ -1,12 +1,13 @@
 'use client'
 
-import { Button } from '@/components/forms/button'
+import { Button } from '@/components/ui/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
-import { signUpService } from '@/services/auth/sign-up'
+import { signUpService } from '@/services/auth/sign-up-service'
 import { passwordValidation, usernameValidation } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AtIcon, LockIcon, UserIcon } from '@phosphor-icons/react'
+import { AtIcon, LockIcon, LockKeyIcon, UserIcon } from '@phosphor-icons/react'
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -48,24 +49,23 @@ export function SignUpForm() {
     },
   })
 
+  const { mutateAsync: signUpServiceMutation, isPending: isSigningUp } =
+    useMutation({
+      mutationFn: signUpService,
+      onSuccess: () => {
+        toast.success('Registro realizado com sucesso! :D')
+        push('/entrar')
+      },
+      onError: () => {
+        toast.error('Não foi possível realizar registro. Tente novamente :(')
+      },
+    })
+
   const handleSignUp = useCallback(
     async ({ password, email, username }: SignUpFormData) => {
-      try {
-        await signUpService({
-          username,
-          email,
-          password,
-        })
-
-        toast.success('Registro realizado com sucesso! :D')
-
-        push('/entrar')
-      } catch (error) {
-        toast.error('Não foi possível realizar registro. Tente novamente :(')
-        console.error('Error during sign up:', error)
-      }
+      await signUpServiceMutation({ password, email, username })
     },
-    [push],
+    [signUpServiceMutation],
   )
 
   return (
@@ -119,7 +119,7 @@ export function SignUpForm() {
         control={control}
         render={({ field, fieldState: { error } }) => (
           <PasswordInput
-            icon={LockIcon}
+            icon={LockKeyIcon}
             label="Confirme a Senha"
             placeholder="•••••••••"
             error={error?.message}
@@ -127,7 +127,9 @@ export function SignUpForm() {
           />
         )}
       />
-      <Button>Registrar</Button>
+      <Button type="submit" size="xl" isLoading={isSigningUp}>
+        Registrar
+      </Button>
     </form>
   )
 }

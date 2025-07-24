@@ -3,14 +3,14 @@
 import type { TokenInfo, User } from '@/types/user'
 import { UserContext } from './user-context'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { signInService, type SignInBody } from '@/services/auth/sign-in'
+import { signInService, type SignInBody } from '@/services/auth/sign-in-service'
 import { api } from '@/services/api'
-import { refreshTokenService } from '@/services/auth/refresh-token'
+import { refreshTokenService } from '@/services/auth/refresh-token-service'
 import { getRefreshToken } from '@/storage/local/get-refresh-token'
 import { saveRefreshToken } from '@/storage/local/save-refresh-token'
-import { signOutService } from '@/services/auth/sign-out'
+import { signOutService } from '@/services/auth/sign-out-service'
 import { removeRefreshToken } from '@/storage/local/remove-refrash-token'
-import { getUserInfoService } from '@/services/auth/get-user-info'
+import { getUserInfoService } from '@/services/auth/get-user-info-service'
 
 export type UserContextProps = {
   user: User | null

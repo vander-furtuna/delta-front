@@ -3,19 +3,33 @@ export type ActivityType = 'QUIZ' | 'EXERCISE' | 'CHALLENGE' | 'LIST'
 
 export type ActivityFilesDTO = unknown | null
 
+export type File = {
+  id: number
+  fileName: string
+  fileType: string
+  filePath: string
+  size: number
+}
+
+export type Link = {
+  link: string
+  description: string
+}
+
 export type Activity = {
   id: number
   title: string
   description: string
   activityType: ActivityType
   imageUrl: string
-  recommendedLevel: number
+  difficultyLevel: number
   maxScore: number
   status: ActivityStatus
   deadline: string
   completed: boolean
   completionTimestamp: string
-  activityFilesDTO: ActivityFilesDTO
+  files: File[]
+  links: Link[]
 }
 
 export type Sort = {
