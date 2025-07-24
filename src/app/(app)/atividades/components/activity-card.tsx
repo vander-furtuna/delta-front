@@ -1,8 +1,9 @@
 import type { Activity } from '@/types/activity'
 import {
   BarbellIcon,
-  BookmarkSimpleIcon, DiceThreeIcon,
-  FlagPennantIcon
+  BookmarkSimpleIcon,
+  DiceThreeIcon,
+  FlagPennantIcon,
 } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useMemo, type ComponentProps } from 'react'
