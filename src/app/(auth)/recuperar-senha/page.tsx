@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import { RecoverPasswordForm } from './components/recover-password-form'
 
-export default function LoginPage() {
+export default function RecoverPasswordPage() {
   return (
     <div className="flex w-full flex-col gap-8">
       <div className="flex w-full flex-col gap-2">
@@ -8,9 +9,11 @@ export default function LoginPage() {
           Recuperar Senha
         </h1>
         <p className="text-muted-foreground w-4/5 text-sm">
-          Entre com sua conta para acessar o <strong>delta</strong>.
+          Recupere sua senha para acessar o <strong>delta</strong>.
         </p>
       </div>
+
+      <RecoverPasswordForm />
 
       <p className="text-muted-foreground text-sm">
         Não tem uma conta?{' '}

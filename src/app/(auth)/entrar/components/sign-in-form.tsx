@@ -12,6 +12,7 @@ import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { useMutation } from '@tanstack/react-query'
 
 const signInFormSchema = z.object({
   username: usernameValidation,
@@ -32,20 +33,24 @@ export function SignInForm() {
     },
   })
 
-  const handleSignIn = useCallback(
-    async (data: SignInFormData) => {
-      try {
-        await signIn(data)
-
-        toast.success('Login realizado com sucesso!')
-
-        push('/dashboard')
-      } catch (error) {
-        console.error('Error during sign in:', error)
-        toast.error('Erro ao realizar login. :(')
-      }
+  const { mutateAsync: signInMutation, isPending: isSigningIn } = useMutation({
+    mutationFn: signIn,
+    onSuccess: () => {
+      toast.success('Login realizado com sucesso! :D')
+      push('/dashboard')
     },
-    [signIn, push],
+    onError: () => {
+      toast.error(
+        'Não foi possível realizar login. Verifique suas credenciais :(',
+      )
+    },
+  })
+
+  const handleSignIn = useCallback(
+    async ({ password, username }: SignInFormData) => {
+      await signInMutation({ password, username })
+    },
+    [signInMutation],
   )
 
   return (
@@ -81,11 +86,14 @@ export function SignInForm() {
         )}
       />
       <div className="flex w-full flex-col gap-2">
-        <Button size="xl">Entrar</Button>
+        <Button size="xl" type="submit" isLoading={isSigningIn}>
+          Entrar
+        </Button>
         <Button
           variant="ghost"
           size="lg"
           type="button"
+          disabled={isSigningIn}
           onClick={() => push('/esqueceu-a-senha')}
         >
           Esqueci a senha

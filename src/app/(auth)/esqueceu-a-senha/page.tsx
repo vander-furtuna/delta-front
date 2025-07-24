@@ -9,7 +9,8 @@ export default function ForgetPasswordPage() {
           Esqueceu a Senha?
         </h1>
         <p className="text-muted-foreground w-4/5 text-sm">
-          Informe seu email para receber as instruções de recuperação de senha.
+          Informe seu <strong>email</strong> para receber um código para
+          recuperação da senha.
         </p>
       </div>
 

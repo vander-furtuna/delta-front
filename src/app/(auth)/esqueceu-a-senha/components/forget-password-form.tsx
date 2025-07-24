@@ -3,12 +3,14 @@
 import { Button } from '@/components/ui/button'
 import { TextInput } from '@/components/forms/text-input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UserIcon } from '@phosphor-icons/react'
+import { ArrowLeftIcon, AtIcon } from '@phosphor-icons/react'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { useCallback } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { forgotPasswordService } from '@/services/auth/forgot-password-service'
 
 const forgetPasswordFormSchema = z.object({
   email: z.string().email('Email inválido').min(1, 'Email é obrigatório'),
@@ -26,20 +28,25 @@ export function ForgetPasswordForm() {
     },
   })
 
-  const handleForgetPassword = useCallback(
-    async (data: ForgetPasswordFormData) => {
-      try {
-        console.log('Sending password reset request for:', data.email)
-
+  const { mutateAsync: forgotPassword, isPending: isEmailSending } =
+    useMutation({
+      mutationFn: forgotPasswordService,
+      onSuccess: () => {
         toast.success('Email de recuperação enviado com sucesso!')
+        push('/recuperar-senha')
+      },
+      onError: () => {
+        toast.error(
+          'Não foi possível enviar email de recuperação :/ Tente novamente.',
+        )
+      },
+    })
 
-        push('/dashboard')
-      } catch (error) {
-        console.error('Error during password reset:', error)
-        toast.error('Erro ao enviar email de recuperação. :(')
-      }
+  const handleForgetPassword = useCallback(
+    async ({ email }: ForgetPasswordFormData) => {
+      await forgotPassword({ email })
     },
-    [push],
+    [forgotPassword],
   )
 
   return (
@@ -52,7 +59,7 @@ export function ForgetPasswordForm() {
         control={control}
         render={({ field, fieldState: { error } }) => (
           <TextInput
-            icon={UserIcon}
+            icon={AtIcon}
             label="Email"
             type="text"
             placeholder="Ex: victor_"
@@ -62,14 +69,18 @@ export function ForgetPasswordForm() {
         )}
       />
 
-      <div className="flex w-full flex-col gap-1">
-        <Button size="xl">Enviar código</Button>
+      <div className="flex w-full flex-col gap-2">
+        <Button size="xl" type="submit" isLoading={isEmailSending}>
+          Enviar Código
+        </Button>
         <Button
           variant="ghost"
-          size="xl"
+          size="lg"
           type="button"
+          disabled={isEmailSending}
           onClick={() => push('/entrar')}
         >
+          <ArrowLeftIcon className="size-5" />
           Voltar
         </Button>
       </div>
