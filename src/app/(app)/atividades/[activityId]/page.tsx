@@ -4,6 +4,7 @@ import {
   BarbellIcon,
   GaugeIcon,
   HourglassLowIcon,
+  PlusIcon,
   type Icon,
 } from '@phosphor-icons/react'
 import { use, useMemo } from 'react'
@@ -12,6 +13,9 @@ import { DeltaIcon } from '@/components/icons/delta'
 import { useQuery } from '@tanstack/react-query'
 import { getActivityById } from '@/services/activities/get-activity-by-id'
 import { FileCard } from '@/components/file-card'
+import { LinkCard } from '@/components/link-card'
+import { ActivityStatusPill } from './components/activity-status-pill'
+import { Button } from '@/components/ui/button'
 
 type DetailPillProps = {
   icon?: Icon
@@ -53,6 +57,7 @@ export default function ActivityPage({
       getActivityById({
         activityId,
       }),
+    refetchOnWindowFocus: false,
   })
 
   const deadline = useMemo(
@@ -61,7 +66,7 @@ export default function ActivityPage({
   )
 
   return (
-    <article className="flex h-full w-full p-10">
+    <article className="flex h-full w-full gap-8 p-10">
       <section className="ml-14 flex h-full w-full flex-col gap-4">
         <div className="flex w-full shrink flex-col gap-2">
           <div className="relative size-fit">
@@ -89,8 +94,31 @@ export default function ActivityPage({
           {activity?.files.map((file) => (
             <FileCard key={file.id} file={file} />
           ))}
+
+          {activity?.links.map((link) => (
+            <LinkCard key={link.description} link={link} />
+          ))}
         </div>
       </section>
+      <aside className="w-fit">
+        <div className="flex w-80 flex-col gap-4 rounded-md border p-4">
+          <div className="flex w-full justify-between">
+            <h2 className="font-heading text-xl font-medium">Seus Anexos</h2>
+            {activity?.status && (
+              <ActivityStatusPill status={activity?.status} />
+            )}
+          </div>
+
+          <button className="bg-accent text-accent-foreground hover:bg-accent/80 mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium transition-colors">
+            <PlusIcon />
+            Adicionar Anexo
+          </button>
+
+          <Button disabled={activity?.status !== 'PENDING'} size="lg">
+            Marcar como concluída
+          </Button>
+        </div>
+      </aside>
     </article>
   )
 }

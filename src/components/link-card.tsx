@@ -9,7 +9,12 @@ type LinkCardProps = {
 
 export function LinkCard({ link }: LinkCardProps) {
   return (
-    <a className="border-border flex h-20 w-80 overflow-hidden rounded-md border">
+    <a
+      className="border-border flex h-20 w-80 overflow-hidden rounded-md border"
+      rel="noopener noreferrer"
+      target="_blank"
+      href={link.link}
+    >
       <div className="border-border border-rf flex size-20 shrink-0 items-center justify-center bg-purple-500/40">
         <LinkSimpleIcon className="size-8 text-purple-500" />
       </div>
@@ -17,7 +22,9 @@ export function LinkCard({ link }: LinkCardProps) {
         <p className="text-accent-foreground w-full overflow-hidden text-sm font-semibold text-ellipsis whitespace-nowrap">
           {link.description}
         </p>
-        <p className="text-accent-foreground/80 text-sm">{link.link}</p>
+        <p className="text-accent-foreground/80 w-full overflow-hidden text-sm font-semibold text-ellipsis whitespace-nowrap">
+          {link.link}
+        </p>
       </div>
     </a>
   )

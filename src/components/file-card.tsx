@@ -6,10 +6,12 @@ import { FileIcon, FileTextIcon, FloppyDiskIcon } from '@phosphor-icons/react'
 import { ImageIcon } from 'lucide-react'
 import type { File } from '@/types/activity'
 import { parseFileType } from '@/utils/file/get-file-type'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { getFileSizeInMegabytes } from '@/utils/file/get-file-size-in-megabytes'
 import { getFileExtension } from '@/utils/file/get-file-extension'
 import { getFileName } from '@/utils/file/get-file-name'
+import { useMutation } from '@tanstack/react-query'
+import { getFileLink } from '@/services/activities/get-file-link'
 
 const fileIconVariants = cva(
   'border-border size-20 border-rf flex items-center justify-center shrink-0',
@@ -46,9 +48,6 @@ function getFileIcon(fileType: string | null) {
 }
 
 export function FileCard({ file }: FileCardProps) {
-  console.log('FileCard fileType:', file.fileType)
-  console.log('FileCard parsed:', parseFileType(file.fileType))
-
   const fileType = useMemo(() => {
     const parsedType = parseFileType(file.fileType)
     return parsedType as VariantProps<typeof fileIconVariants>['color']
@@ -66,13 +65,37 @@ export function FileCard({ file }: FileCardProps) {
 
   const fileName = useMemo(() => getFileName(file.fileName), [file.fileName])
 
+  const { mutateAsync: getFileLinkMutate } = useMutation({
+    mutationKey: ['getFileLink', file.id],
+    mutationFn: () =>
+      getFileLink({
+        fileId: file.id,
+      }),
+    onSuccess: (data) => {
+      console.log('File fetched successfully:', data)
+    },
+  })
+
+  const handleGetFile = useCallback(async () => {
+    const fileLink = await getFileLinkMutate()
+
+    if (fileLink) {
+      window.open(fileLink, '_blank')
+    } else {
+      console.error('Failed to fetch file link')
+    }
+  }, [getFileLinkMutate])
+
   return (
-    <div className="border-border flex h-20 w-80 overflow-hidden rounded-md border">
+    <button
+      className="border-border flex h-20 w-80 overflow-hidden rounded-md border"
+      onClick={handleGetFile}
+    >
       <div className={fileIconVariants({ color: fileType })}>
         {fileType && getFileIcon(fileType)}
       </div>
       <div className="flex w-full flex-col gap-1 overflow-hidden p-4">
-        <p className="text-accent-foreground w-full overflow-hidden text-sm font-semibold text-ellipsis whitespace-nowrap">
+        <p className="text-accent-foreground w-full overflow-hidden text-start text-sm font-semibold text-ellipsis whitespace-nowrap">
           {fileName}
         </p>
         <div className="flex items-center gap-2">
@@ -87,6 +110,6 @@ export function FileCard({ file }: FileCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </button>
   )
 }
