@@ -29,7 +29,7 @@ export function RecoverPasswordForm() {
   const { control, handleSubmit } = useForm<RecoverPasswordFormData>({
     resolver: zodResolver(recoverPasswordFormSchema),
     defaultValues: {
-      code: 0,
+      code: '',
     },
   })
 
