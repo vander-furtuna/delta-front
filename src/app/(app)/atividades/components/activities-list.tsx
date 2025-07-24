@@ -1,6 +1,6 @@
 'use client'
 
-import { searchActivities } from '@/services/activities/search-activities-service'
+import { searchActivitiesService } from '@/services/activities/search-activities-service'
 import type { ActivityStatus, ActivityType } from '@/types/activity'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
@@ -24,7 +24,7 @@ export function ActivitiesList() {
   const { data: activities, isPending: isActivitiesPending } = useQuery({
     queryKey: ['activities', 'search', status, page, activityType, query],
     queryFn: () =>
-      searchActivities({
+      searchActivitiesService({
         status,
         activityType,
         query,

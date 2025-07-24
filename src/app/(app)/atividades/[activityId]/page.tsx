@@ -11,7 +11,7 @@ import { use, useMemo } from 'react'
 import { getFormattedDate } from '@/utils/get-formated-date'
 import { DeltaIcon } from '@/components/icons/delta'
 import { useQuery } from '@tanstack/react-query'
-import { getActivityById } from '@/services/activities/get-activity-by-id-service'
+import { getActivityByIdService } from '@/services/activities/get-activity-by-id-service'
 import { FileCard } from '@/components/file-card'
 import { LinkCard } from '@/components/link-card'
 import { ActivityStatusPill } from './components/activity-status-pill'
@@ -54,7 +54,7 @@ export default function ActivityPage({
   const { data: activity } = useQuery({
     queryKey: ['activity', activityId],
     queryFn: () =>
-      getActivityById({
+      getActivityByIdService({
         activityId,
       }),
     refetchOnWindowFocus: false,

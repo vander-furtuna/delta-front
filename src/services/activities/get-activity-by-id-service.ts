@@ -5,7 +5,9 @@ type GetActivityByIdRequest = {
   activityId: string
 }
 
-export async function getActivityById({ activityId }: GetActivityByIdRequest) {
+export async function getActivityByIdService({
+  activityId,
+}: GetActivityByIdRequest) {
   const { data } = await api.get<Activity>(`/activities/get/${activityId}`)
   return data
 }

@@ -13,7 +13,7 @@ type SearchActivitiesParams = {
   activityType: ActivityType | null
 }
 
-export async function searchActivities({
+export async function searchActivitiesService({
   query = '',
   page,
   size,
