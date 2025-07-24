@@ -113,3 +113,20 @@ export function FileCard({ file }: FileCardProps) {
     </button>
   )
 }
+
+export function FileCardSkeleton() {
+  return (
+    <div className="border-border flex h-20 w-80 animate-pulse items-center justify-start overflow-hidden rounded-md border">
+      <div className={fileIconVariants({ color: 'default' })}>
+        <FileIcon className="size-8 text-stone-700" />
+      </div>
+      <div className="flex w-full flex-col gap-1 overflow-hidden p-4">
+        <div className="bg-accent h-5 w-[80%] rounded-full" />
+        <div className="flex items-center gap-1">
+          <div className="bg-accent h-4 w-16 rounded-full" />
+          <div className="bg-accent h-4 w-16 rounded-full" />
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -12,7 +12,7 @@ import { getFormattedDate } from '@/utils/get-formated-date'
 import { DeltaIcon } from '@/components/icons/delta'
 import { useQuery } from '@tanstack/react-query'
 import { getActivityByIdService } from '@/services/activities/get-activity-by-id-service'
-import { FileCard } from '@/components/file-card'
+import { FileCard, FileCardSkeleton } from '@/components/file-card'
 import { LinkCard } from '@/components/link-card'
 import { ActivityStatusPill } from './components/activity-status-pill'
 import { Button } from '@/components/ui/button'
@@ -51,7 +51,7 @@ export default function ActivityPage({
 }) {
   const { activityId } = use(params)
 
-  const { data: activity } = useQuery({
+  const { data: activity, isLoading: isActivityLoading } = useQuery({
     queryKey: ['activity', activityId],
     queryFn: () =>
       getActivityByIdService({
@@ -74,54 +74,82 @@ export default function ActivityPage({
               <BarbellIcon className="size-5" />
             </div>
 
-            <h1 className="font-heading text-4xl font-bold first-letter:uppercase">
-              {activity?.title}
-            </h1>
-          </div>
-          <div className="flex gap-2">
-            <ScorePill value={`+${activity?.maxScore} pontos`} />
-            <DetailPill icon={HourglassLowIcon} value={deadline} />
-            <DetailPill
-              icon={GaugeIcon}
-              value={`Nível ${activity?.difficultyLevel}`}
-            />
-          </div>
-        </div>
-        <hr className="border-border" />
-        <p className="text-base">{activity?.description}</p>
-
-        <div className="flex w-full flex-wrap gap-2">
-          {activity?.files.map((file) => (
-            <FileCard key={file.id} file={file} />
-          ))}
-
-          {activity?.links.map((link) => (
-            <LinkCard key={link.description} link={link} />
-          ))}
-        </div>
-      </section>
-      <aside className="w-fit">
-        <div className="flex w-80 flex-col gap-4 rounded-md border p-4">
-          <div className="flex w-full justify-between">
-            <h2 className="font-heading text-xl font-medium">Seus Anexos</h2>
-            {activity?.status && (
-              <ActivityStatusPill status={activity?.status} />
+            {!isActivityLoading ? (
+              <h1 className="font-heading text-4xl font-bold first-letter:uppercase">
+                {activity?.title}
+              </h1>
+            ) : (
+              <div className="bg-accent h-10 w-96 animate-pulse rounded-full"></div>
             )}
           </div>
 
-          <button
-            className="bg-accent text-accent-foreground hover:bg-accent/80 mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium transition-colors disabled:opacity-50"
-            disabled={activity?.status !== 'PENDING'}
-          >
-            <PlusIcon />
-            Adicionar Anexo
-          </button>
-
-          <Button disabled={activity?.status !== 'PENDING'} size="xl">
-            Marcar como concluída
-          </Button>
+          {!isActivityLoading ? (
+            <div className="flex gap-2">
+              <ScorePill value={`+${activity?.maxScore} pontos`} />
+              <DetailPill icon={HourglassLowIcon} value={deadline} />
+              <DetailPill
+                icon={GaugeIcon}
+                value={`Nível ${activity?.difficultyLevel}`}
+              />
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <div className="bg-primary/40 h-6 w-24 animate-pulse rounded-full"></div>
+              <div className="bg-accent h-6 w-24 animate-pulse rounded-full"></div>
+              <div className="bg-accent h-6 w-24 animate-pulse rounded-full"></div>
+            </div>
+          )}
         </div>
-      </aside>
+        <hr className="border-border" />
+        {!isActivityLoading ? (
+          <p className="text-accent-foreground/90 text-base">
+            {activity?.description}
+          </p>
+        ) : (
+          <div className="bg-accent h-4 w-96 animate-pulse rounded-full"></div>
+        )}
+        {!isActivityLoading ? (
+          <div className="flex w-full flex-wrap gap-2">
+            {activity?.files.map((file) => (
+              <FileCard key={file.id} file={file} />
+            ))}
+
+            {activity?.links.map((link) => (
+              <LinkCard key={link.description} link={link} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex w-full flex-wrap gap-2">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <FileCardSkeleton key={index} />
+            ))}
+          </div>
+        )}
+      </section>
+      {!isActivityLoading && (
+        <aside className="w-fit">
+          <div className="flex w-80 flex-col gap-4 rounded-md border p-4">
+            <div className="flex w-full justify-between">
+              <h2 className="font-heading text-xl font-medium">Seus Anexos</h2>
+              {activity?.status && (
+                <ActivityStatusPill status={activity?.status} />
+              )}
+            </div>
+
+            <button
+              className="bg-accent text-accent-foreground hover:bg-accent/80 mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium transition-colors disabled:opacity-50"
+              disabled={activity?.status !== 'PENDING'}
+            >
+              <PlusIcon />
+              Adicionar Anexo
+            </button>
+
+            <Button disabled={activity?.status !== 'PENDING'} size="xl">
+              Marcar como concluída
+            </Button>
+          </div>
+        </aside>
+      )}
     </article>
   )
 }
