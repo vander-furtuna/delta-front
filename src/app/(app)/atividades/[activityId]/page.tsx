@@ -109,12 +109,15 @@ export default function ActivityPage({
             )}
           </div>
 
-          <button className="bg-accent text-accent-foreground hover:bg-accent/80 mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium transition-colors">
+          <button
+            className="bg-accent text-accent-foreground hover:bg-accent/80 mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium transition-colors disabled:opacity-50"
+            disabled={activity?.status !== 'PENDING'}
+          >
             <PlusIcon />
             Adicionar Anexo
           </button>
 
-          <Button disabled={activity?.status !== 'PENDING'} size="lg">
+          <Button disabled={activity?.status !== 'PENDING'} size="xl">
             Marcar como concluída
           </Button>
         </div>
