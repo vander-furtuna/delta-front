@@ -1,6 +1,6 @@
 'use client'
 
-import { searchActivities } from '@/services/activities/search-activities'
+import { searchActivities } from '@/services/activities/search-activities-service'
 import type { ActivityStatus, ActivityType } from '@/types/activity'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'

@@ -3,7 +3,7 @@
 import { Button } from '@/components/forms/button'
 import { PasswordInput } from '@/components/forms/password-input'
 import { TextInput } from '@/components/forms/text-input'
-import { signUpService } from '@/services/auth/sign-up'
+import { signUpService } from '@/services/auth/sign-up-service'
 import { passwordValidation, usernameValidation } from '@/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AtIcon, LockIcon, UserIcon } from '@phosphor-icons/react'

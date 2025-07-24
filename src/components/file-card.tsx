@@ -11,7 +11,7 @@ import { getFileSizeInMegabytes } from '@/utils/file/get-file-size-in-megabytes'
 import { getFileExtension } from '@/utils/file/get-file-extension'
 import { getFileName } from '@/utils/file/get-file-name'
 import { useMutation } from '@tanstack/react-query'
-import { getFileLink } from '@/services/activities/get-file-link'
+import { getFileLink } from '@/services/activities/get-file-link-service'
 
 const fileIconVariants = cva(
   'border-border size-20 border-rf flex items-center justify-center shrink-0',
