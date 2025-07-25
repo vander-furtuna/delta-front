@@ -71,7 +71,7 @@ export default function ActivityPage({
   )
 
   return (
-    <article className="flex h-full w-full flex-col gap-8 overflow-y-auto p-10 pb-32 md:flex-row md:pb-0">
+    <article className="flex h-full w-full flex-col gap-8 overflow-y-auto px-4 pt-10 pb-32 md:flex-row md:px-10 md:pb-0">
       <section className="flex h-fit w-full flex-col gap-4 md:ml-14">
         <div className="flex w-full shrink flex-col gap-2">
           <div className="relative flex size-fit flex-col items-start gap-2">
