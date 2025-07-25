@@ -44,6 +44,12 @@ export const metadata: Metadata = {
       url: 'https://github.com/vander-furtuna',
     },
   ],
+  openGraph: {
+    title: 'Delta | UFC',
+    description: 'Aprenda, ensine e pratique com o Delta.',
+    images: ['https://delta-front-app.vercel.app/banner.jpg'],
+    url: 'https://delta-front-app.vercel.app',
+  },
 }
 
 export default function RootLayout({
