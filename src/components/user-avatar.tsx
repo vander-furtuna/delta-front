@@ -1,17 +1,32 @@
-import { useUser } from '@/hooks/contexts/use-user'
 import { cn } from '@/lib/utils'
+import { getPhotoProfileUrlService } from '@/services/account/get-photo-profile-url-service'
+import { getUserInfoService } from '@/services/auth/get-user-info-service'
+import { getFirstName } from '@/utils/get-first-name'
 import { getFirstLetter } from '@/utils/get-firts-letter'
-import { getRoleName } from '@/utils/get-role-name'
+import { getRoleIcon } from '@/utils/get-role-icon'
 import { DotsThreeVerticalIcon } from '@phosphor-icons/react'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo, type ComponentProps } from 'react'
+import { DeltaIcon } from './icons/delta'
 
 type UserAvatarProps = ComponentProps<'button'>
 
 export function UserAvatar({ className, ...rest }: UserAvatarProps) {
-  const { user } = useUser()
+  // const { user } = useUser()
 
-  const rolename = useMemo(
-    () => user?.role && getRoleName(user.role),
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => getUserInfoService(),
+  })
+
+  const { data: photoProfileUrl } = useQuery({
+    queryKey: ['photoProfileUrl'],
+    queryFn: () => getPhotoProfileUrlService(),
+    refetchOnWindowFocus: false,
+  })
+
+  const RoleIcon = useMemo(
+    () => user?.role && getRoleIcon(user.role),
     [user?.role],
   )
 
@@ -24,23 +39,45 @@ export function UserAvatar({ className, ...rest }: UserAvatarProps) {
     <button
       type="button"
       className={cn(
-        'bg-muted/50 flex w-full items-center justify-start gap-2 rounded-md px-2 py-2',
+        'bg-primary/15 flex w-full items-center justify-start gap-2 rounded-md border px-2 py-2',
         className,
       )}
       {...rest}
     >
       <div className="flex w-full items-center gap-2">
-        <div className="bg-primary/30 relative flex size-10 items-center justify-center rounded-full">
+        <div className="bg-primary/30 ring-primary relative flex size-12 items-center justify-center rounded-sm ring-2">
           {!user?.profile && (
             <div className="bg-primary absolute top-0 right-1 size-2 animate-pulse rounded-full" />
           )}
           <span className="font-heading leading-tight font-semibold uppercase">
             {firstLetter}
           </span>
+          {photoProfileUrl && (
+            <img
+              src={photoProfileUrl}
+              alt="User Avatar"
+              className="absolute inset-0 size-full rounded-sm object-cover"
+            />
+          )}
         </div>
-        <div className="flex flex-col items-start">
-          <span className="leading-tight">{user?.username}</span>
-          <span className="text-xs">{rolename}</span>
+        <div className="flex flex-col items-start gap-1">
+          <span className="text-start leading-tight">
+            {getFirstName(user?.profile?.name) || user?.username}
+          </span>
+          <div className="text-muted-foreground flex items-center gap-1 text-xs">
+            {RoleIcon && (
+              <div className="flex size-6 items-center justify-center rounded-full border">
+                <RoleIcon className="text-foreground size-4" />
+              </div>
+            )}
+
+            <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-full border px-1.5">
+              <DeltaIcon className="fill-primary size-3 shrink-0" />
+              <div className="text-foreground text-xs font-semibold">
+                {user?.profile?.level || 0}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <DotsThreeVerticalIcon className="text-muted-foreground size-6" />
