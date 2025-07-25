@@ -88,12 +88,10 @@ export default function ProfilePage() {
   )
 
   return (
-    <article className="relative flex h-full w-full flex-col items-center justify-center">
-      <h1 className="font-heading absolute top-6 text-4xl font-bold">
-        Seu Perfil
-      </h1>
+    <article className="relative flex h-full w-full flex-col items-center justify-start gap-6 overflow-y-auto py-4 pb-32 md:pb-4">
+      <h1 className="font-heading text-4xl font-bold">Seu Perfil</h1>
 
-      <section className="flex h-full w-80 flex-col items-center justify-center gap-3">
+      <section className="flex w-80 flex-col items-center justify-center gap-3">
         <div className="mb-4">
           <AvatarUploadInput avatarUrl={photoProfileUrl} />
         </div>

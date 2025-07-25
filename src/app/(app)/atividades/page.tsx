@@ -10,7 +10,7 @@ export default function ActivitiesPage() {
     >
       <Suspense>
         <section className="flex h-full w-full flex-col gap-8 px-8 py-8">
-          <div className="flex h-full w-full flex-col items-center justify-between gap-4 md:flex-row">
+          <div className="flex h-fit w-full flex-col items-center justify-between gap-4 md:flex-row">
             <h1 className="font-heading text-4xl font-semibold">Atividades</h1>
             <ActivitiesFilter />
           </div>

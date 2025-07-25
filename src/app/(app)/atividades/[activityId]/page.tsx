@@ -71,8 +71,8 @@ export default function ActivityPage({
   )
 
   return (
-    <article className="flex h-full w-full flex-col gap-8 p-10 pb-32 md:flex-row md:pb-0">
-      <section className="flex h-full w-full flex-col gap-4 md:ml-14">
+    <article className="flex h-full w-full flex-col gap-8 overflow-y-auto p-10 pb-32 md:flex-row md:pb-0">
+      <section className="flex h-fit w-full flex-col gap-4 md:ml-14">
         <div className="flex w-full shrink flex-col gap-2">
           <div className="relative flex size-fit flex-col items-start gap-2">
             <div className="bg-primary/50 top-1/2 -left-10 flex size-12 items-center justify-center rounded-full md:absolute md:-translate-1/2">
@@ -114,7 +114,7 @@ export default function ActivityPage({
           <div className="bg-accent h-4 w-96 animate-pulse rounded-full"></div>
         )}
         {!isActivityLoading ? (
-          <div className="flex w-full flex-wrap gap-2">
+          <div className="flex h-full w-full flex-wrap gap-2">
             {activity?.files.map((file) => (
               <FileCard key={file.id} file={file} />
             ))}
@@ -132,7 +132,7 @@ export default function ActivityPage({
         )}
       </section>
       {!isActivityLoading && (
-        <aside className="w-full md:w-fit">
+        <aside className="h-fit w-full shrink-0 md:w-fit">
           <div className="flex w-full flex-col gap-4 rounded-md border p-4 md:w-80">
             <div className="flex w-full justify-between">
               <h2 className="font-heading text-xl font-medium">Seus Anexos</h2>
