@@ -117,6 +117,7 @@ export default function ProfilePage() {
                 placeholder="Ex: victor_"
                 error={error?.message}
                 {...field}
+                readOnly
               />
             )}
           />
