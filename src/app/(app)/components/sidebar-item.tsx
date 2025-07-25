@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 import type { ComponentProps } from 'react'
 
 const navItemVariants = cva(
-  'flex size-12 items-center gap-2 rounded-md bg-transparent justify-center transition-colors ease-in-out data-[state=active]:bg-primary/60 shrink-0',
+  'flex h-12 w-full items-center gap-2 rounded-md bg-transparent px-3 transition-colors ease-in-out data-[state=active]:bg-primary/60',
   {
     variants: {
       color: {
@@ -29,9 +29,10 @@ type NavItemProps = {
 } & ComponentProps<typeof Link> &
   VariantProps<typeof navItemVariants>
 
-export function NavItem({
+export function SidebarItem({
   icon: Icon,
   className,
+  children,
   color,
   href,
   ...props
@@ -39,16 +40,21 @@ export function NavItem({
   const currentPath = usePathname()
 
   return (
-    <Link
-      className={navItemVariants({
-        className,
-        color,
-      })}
-      data-state={currentPath.includes(href.toString()) ? 'active' : 'inactive'}
-      href={href}
-      {...props}
-    >
-      <Icon className="size-6" weight="duotone" />
-    </Link>
+    <li>
+      <Link
+        className={navItemVariants({
+          className,
+          color,
+        })}
+        data-state={
+          currentPath.includes(href.toString()) ? 'active' : 'inactive'
+        }
+        href={href}
+        {...props}
+      >
+        <Icon className="size-6" weight="duotone" />
+        <span className="font-heading text-lg font-normal">{children}</span>
+      </Link>
+    </li>
   )
 }

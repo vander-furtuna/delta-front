@@ -1,70 +1,27 @@
-'use client'
-
-import { Logo } from '@/components/logo'
-import {
-  HouseIcon,
-  LineSegmentsIcon,
-  BarbellIcon,
-  GraduationCapIcon,
-} from '@phosphor-icons/react'
-import { NavItem } from './nav-item'
-import type { Icon } from '@phosphor-icons/react'
 import { AccountMenu } from '@/components/account-dialog'
+import { NavItem } from './nav-item'
+import { navItems } from './sidebar'
+import { UserAvatarSmall } from '@/components/user-avatar-small'
 
-type NavItem = {
-  icon: Icon
-  color: 'primary' | 'hike' | 'pratice' | 'monitore'
-  href: string
-  label: string
-}
-
-const navItems: NavItem[] = [
-  {
-    icon: HouseIcon,
-    color: 'primary',
-    href: '/dashboard',
-    label: 'Dashboard',
-  },
-  {
-    icon: LineSegmentsIcon,
-    color: 'hike',
-    href: '/trilhas',
-    label: 'Trilhas',
-  },
-  {
-    icon: BarbellIcon,
-    color: 'pratice',
-    href: '/atividades',
-    label: 'Atividades',
-  },
-  {
-    icon: GraduationCapIcon,
-    color: 'monitore',
-    href: '/monitorias',
-    label: 'Monitorias',
-  },
-]
-export function Navbar() {
+export function NavBar() {
   return (
-    <aside className="border-border flex h-full w-64 shrink-0 flex-col items-start gap-16 border-r px-4 py-5">
-      <Logo className="h-10" />
+    <nav className="bg-accent absolute bottom-0 left-1/2 z-50 flex size-fit -translate-1/2 items-center gap-3 rounded-md border p-2 md:hidden">
+      {navItems.map((item) => (
+        <NavItem
+          key={item.href}
+          icon={item.icon}
+          color={item.color}
+          href={item.href}
+        >
+          {item.label}
+        </NavItem>
+      ))}
 
-      <nav className="h-fit w-full">
-        <ul className="flex h-fit w-full flex-col gap-1.5">
-          {navItems.map((item) => (
-            <NavItem
-              key={item.href}
-              icon={item.icon}
-              color={item.color}
-              href={item.href}
-            >
-              {item.label}
-            </NavItem>
-          ))}
-        </ul>
-      </nav>
+      <div className="bg-border block h-8 w-[1px] shrink-0 rounded-full" />
 
-      <AccountMenu />
-    </aside>
+      <AccountMenu>
+        <UserAvatarSmall />
+      </AccountMenu>
+    </nav>
   )
 }

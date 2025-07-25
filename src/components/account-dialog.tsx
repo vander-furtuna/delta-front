@@ -10,7 +10,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { UserAvatar } from './user-avatar'
 import {
   SignOutIcon,
   SparkleIcon,
@@ -21,13 +20,15 @@ import {
 
 import { useTheme } from 'next-themes'
 import { useUser } from '@/hooks/contexts/use-user'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, type ComponentProps } from 'react'
 import { toast } from 'sonner'
 import CompleteProfileDialog from './complete-profile-dialog'
 import { UserIcon } from 'lucide-react'
 import Link from 'next/link'
 
-export function AccountMenu() {
+type AccountMenuProps = ComponentProps<typeof DropdownMenu>
+
+export function AccountMenu({ children, ...props }: AccountMenuProps) {
   const [isCompleteProfileDialogOpen, setCompleteProfileDialogOpen] =
     useState(false)
 
@@ -46,15 +47,13 @@ export function AccountMenu() {
   }, [signOut])
 
   return (
-    <DropdownMenu>
+    <DropdownMenu {...props}>
       <CompleteProfileDialog
         open={isCompleteProfileDialogOpen}
         onOpenChange={(open) => setCompleteProfileDialogOpen(open)}
       />
-      <DropdownMenuTrigger asChild className="outline-none">
-        <UserAvatar className="mt-auto" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start">
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
         <DropdownMenuSeparator />
 

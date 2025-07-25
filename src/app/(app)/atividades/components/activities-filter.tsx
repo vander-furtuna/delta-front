@@ -100,13 +100,18 @@ export function ActivitiesFilter() {
   return (
     <form
       onSubmit={handleSubmit(handleFilterSubmit)}
-      className="flex w-fit gap-1"
+      className="flex w-full gap-1 md:w-fit"
     >
       <Controller
         name="query"
         control={control}
         render={({ field }) => (
-          <SearchInput type="text" placeholder="Ex: victor_" {...field} />
+          <SearchInput
+            type="text"
+            placeholder="Ex: victor_"
+            className="w-full"
+            {...field}
+          />
         )}
       />
       <Controller

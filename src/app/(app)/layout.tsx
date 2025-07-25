@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, type ReactNode } from 'react'
-import { Navbar } from './components/nav-bar'
+import { Sidebar } from './components/sidebar'
 import { useUser } from '@/hooks/contexts/use-user'
 import { useRouter } from 'next/navigation'
+import { NavBar } from './components/nav-bar'
 
 type AppLayoutProps = {
   children: ReactNode
@@ -20,8 +21,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
   }, [isUserLoading, user, push])
 
   return (
-    <main className="flex h-dvh w-full">
-      <Navbar />
+    <main className="relative flex h-dvh w-full">
+      <Sidebar />
+      <NavBar />
       {children}
     </main>
   )

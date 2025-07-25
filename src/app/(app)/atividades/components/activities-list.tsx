@@ -60,7 +60,7 @@ export function ActivitiesList() {
       </div>
 
       {activities && activities.content.length > 0 && (
-        <div className="h-fit w-full py-4">
+        <div className="h-fit w-full py-4 pb-32 md:pb-2">
           <Pagination
             numberOfElements={activities?.totalElements}
             page={activities?.number}

@@ -5,11 +5,30 @@ import { TextInput } from '@/components/forms/text-input'
 import { Textarea } from '@/components/forms/textarea'
 import { LevelPill } from '@/components/level-pill'
 import { RolePill } from '@/components/role-pill'
+import { Button } from '@/components/ui/button'
 import { useUser } from '@/hooks/contexts/use-user'
+import { queryClient } from '@/lib/query-client'
 import { getPhotoProfileUrlService } from '@/services/account/get-photo-profile-url-service'
+import { updateAccountService } from '@/services/account/update-account-service'
 import { getUserInfoService } from '@/services/auth/get-user-info-service'
-import { AtIcon, HashIcon, UserIcon } from '@phosphor-icons/react'
-import { useQuery } from '@tanstack/react-query'
+import { usernameValidation } from '@/validations/auth'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AtIcon, HashIcon, PhoneIcon, UserIcon } from '@phosphor-icons/react'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useCallback } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
+const editProfileSchema = z.object({
+  username: usernameValidation,
+  email: z.string().email('Email inválido'),
+  fullName: z.string().min(1, 'Nome completo é obrigatório'),
+  phoneNumber: z.string().min(1, 'Número de telefone é obrigatório'),
+  bio: z.string().optional(),
+})
+
+type EditProfileFormData = z.infer<typeof editProfileSchema>
 
 export default function ProfilePage() {
   const { user } = useUser()
@@ -24,9 +43,53 @@ export default function ProfilePage() {
     queryFn: () => getPhotoProfileUrlService(),
   })
 
+  const { control, handleSubmit } = useForm<EditProfileFormData>({
+    resolver: zodResolver(editProfileSchema),
+    values: {
+      username: account?.username || '',
+      email: account?.email || '',
+      fullName: account?.profile.name || '',
+      phoneNumber: account?.profile.phoneNumber || '',
+      bio: account?.profile.bio || '',
+    },
+  })
+
+  const { mutateAsync: updateProfile, isPending: isProfileLoading } =
+    useMutation({
+      mutationFn: updateAccountService,
+      onSuccess: () => {
+        toast.success('Perfil atualizado com sucesso!')
+        queryClient.refetchQueries({ queryKey: ['user', user?.id] })
+      },
+      onError: () => {
+        toast.error('Erro ao atualizar perfil. Tente novamente.')
+      },
+    })
+
+  const handleEditProfile = useCallback(
+    async ({
+      email,
+      fullName,
+      phoneNumber,
+      bio,
+      username,
+    }: EditProfileFormData) => {
+      await updateProfile({
+        userInfo: {
+          email,
+          username,
+        },
+        name: fullName,
+        phoneNumber,
+        bio: bio || '',
+      })
+    },
+    [updateProfile],
+  )
+
   return (
     <article className="relative flex h-full w-full flex-col items-center justify-center">
-      <h1 className="font-heading absolute top-[10%] text-4xl font-bold">
+      <h1 className="font-heading absolute top-6 text-4xl font-bold">
         Seu Perfil
       </h1>
 
@@ -38,38 +101,89 @@ export default function ProfilePage() {
           {account?.role && <RolePill role={account?.role} />}
           <LevelPill level={account?.profile.level || 0} />
         </div>
-        <TextInput
-          value={account?.username}
-          placeholder="Ex: delta_furtado"
-          icon={HashIcon}
-          label="Usuário"
-          readOnly
-        />
-        <TextInput
-          value={account?.profile.name}
-          placeholder="Ex: Delta Furtado"
-          icon={UserIcon}
-          label="Nome"
-          readOnly
-        />
-        <TextInput
-          value={account?.email}
-          placeholder="Ex: delta@exemplo.com"
-          label="Email"
-          icon={AtIcon}
-        />
-        <TextInput
-          value={account?.profile.phoneNumber}
-          placeholder="Ex: (11) 91234-5678"
-          label="Telefone"
-          icon={AtIcon}
-        />
-        <Textarea
-          value={account?.profile.bio}
-          placeholder="Escreva algo sobre você"
-          label="Bio"
-          className="w-full"
-        />
+
+        <form
+          className="flex w-full flex-col gap-2"
+          onSubmit={handleSubmit(handleEditProfile)}
+        >
+          <Controller
+            name="username"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextInput
+                icon={HashIcon}
+                label="Usuário"
+                type="text"
+                placeholder="Ex: victor_"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Controller
+            name="fullName"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextInput
+                icon={UserIcon}
+                label="Nome"
+                type="text"
+                placeholder="Ex: Delta Furtado"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Controller
+            name="email"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextInput
+                icon={AtIcon}
+                label="Email"
+                type="text"
+                placeholder="Ex: delta@exemplo.com"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Controller
+            name="phoneNumber"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextInput
+                icon={PhoneIcon}
+                label="Telefone"
+                type="text"
+                placeholder="Ex: (11) 91234-5678"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Controller
+            name="bio"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Textarea
+                label="Bio"
+                placeholder="Escreva algo sobre você"
+                className="w-full"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Button size="lg" isLoading={isProfileLoading} type="submit">
+            Salvar Alterações
+          </Button>
+        </form>
       </section>
     </article>
   )
