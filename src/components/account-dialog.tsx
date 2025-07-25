@@ -24,6 +24,8 @@ import { useUser } from '@/hooks/contexts/use-user'
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 import CompleteProfileDialog from './complete-profile-dialog'
+import { UserIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export function AccountMenu() {
   const [isCompleteProfileDialogOpen, setCompleteProfileDialogOpen] =
@@ -81,7 +83,7 @@ export function AccountMenu() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        {!user?.profile && (
+        {!user?.profile ? (
           <DropdownMenuItem
             className="bg-primary/10"
             onClick={() => setCompleteProfileDialogOpen(true)}
@@ -91,6 +93,15 @@ export function AccountMenu() {
             <DropdownMenuShortcut>
               <ArrowRightIcon className="text-primary" />
             </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link href="/perfil">
+              Ver Perfil
+              <DropdownMenuShortcut>
+                <UserIcon />
+              </DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
         )}
 

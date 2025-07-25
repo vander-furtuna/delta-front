@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, type ComponentProps } from 'react'
-import { ImagePlusIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -21,6 +20,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { completeProfileService } from '@/services/account/complete-profile-service'
 import { toast } from 'sonner'
+import { DeltaIcon } from './icons/delta'
+import { queryClient } from '@/lib/query-client'
+import { useUser } from '@/hooks/contexts/use-user'
 
 type CompleteProfileDialogProps = ComponentProps<typeof Dialog>
 
@@ -35,6 +37,8 @@ type CompleteProfileFormData = z.infer<typeof completeProfileSchema>
 export default function CompleteProfileDialog({
   ...props
 }: CompleteProfileDialogProps) {
+  const { user } = useUser()
+
   const { control, handleSubmit } = useForm<CompleteProfileFormData>({
     resolver: zodResolver(completeProfileSchema),
     defaultValues: {
@@ -52,13 +56,18 @@ export default function CompleteProfileDialog({
           phoneNumber,
           bio,
         })
+
+        queryClient.refetchQueries({
+          queryKey: ['user', user?.id],
+        })
+
         toast.success('Perfil completado com sucesso!')
       } catch (error) {
         console.error('Error completing profile:', error)
         toast.error('Não foi possível completar perfil. :( Tente novamente.')
       }
     },
-    [],
+    [user?.id],
   )
 
   return (
@@ -74,18 +83,10 @@ export default function CompleteProfileDialog({
           username.
         </DialogDescription>
         <div className="overflow-y-auto">
-          <div className="bg-primary h-32"></div>
-          <div className="-mt-10 px-6">
-            <div className="border-background bg-muted relative flex size-20 items-center justify-center overflow-hidden rounded-full border-4 shadow-xs shadow-black/10">
-              <button
-                type="button"
-                className="focus-visible:border-ring focus-visible:ring-ring/50 absolute flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-                aria-label="Change profile picture"
-              >
-                <ImagePlusIcon size={16} aria-hidden="true" />
-              </button>
-            </div>
+          <div className="bg-primary flex h-32 items-center justify-center">
+            <DeltaIcon className="h-12 fill-stone-900/30" />
           </div>
+
           <div className="px-6 pt-4 pb-6">
             <form
               className="space-y-4"
