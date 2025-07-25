@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  BarbellIcon,
   GaugeIcon,
   HourglassLowIcon,
   PlusIcon,
@@ -16,6 +15,7 @@ import { FileCard, FileCardSkeleton } from '@/components/file-card'
 import { LinkCard } from '@/components/link-card'
 import { ActivityStatusPill } from './components/activity-status-pill'
 import { Button } from '@/components/ui/button'
+import { getActivityTypeIcon } from '@/utils/get-activity-type-icon'
 
 type DetailPillProps = {
   icon?: Icon
@@ -65,13 +65,18 @@ export default function ActivityPage({
     [activity?.deadline],
   )
 
+  const Icon = useMemo(
+    () => activity?.activityType && getActivityTypeIcon(activity?.activityType),
+    [activity?.activityType],
+  )
+
   return (
     <article className="flex h-full w-full gap-8 p-10">
       <section className="ml-14 flex h-full w-full flex-col gap-4">
         <div className="flex w-full shrink flex-col gap-2">
           <div className="relative size-fit">
             <div className="bg-primary/50 absolute top-1/2 -left-10 flex size-12 -translate-1/2 items-center justify-center rounded-full">
-              <BarbellIcon className="size-5" />
+              {Icon && <Icon className="text-primary size-6" />}
             </div>
 
             {!isActivityLoading ? (

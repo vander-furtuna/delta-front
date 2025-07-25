@@ -2,8 +2,12 @@
 
 import { cva, type VariantProps } from 'class-variance-authority'
 import { PDFIcon } from './icons/pdf-icon'
-import { FileIcon, FileTextIcon, FloppyDiskIcon } from '@phosphor-icons/react'
-import { ImageIcon } from 'lucide-react'
+import {
+  FileIcon,
+  FileTextIcon,
+  FloppyDiskIcon,
+  ImageIcon,
+} from '@phosphor-icons/react'
 import type { File } from '@/types/activity'
 import { parseFileType } from '@/utils/file/get-file-type'
 import { useCallback, useMemo } from 'react'
@@ -39,11 +43,16 @@ function getFileIcon(fileType: string | null) {
     case 'pdf':
       return <PDFIcon className="size-8 fill-rose-500" />
     case 'doc':
-      return <FileTextIcon className="size-8 text-sky-500" />
+      return <FileTextIcon className="size-8 text-sky-500" weight="duotone" />
     case 'image':
-      return <ImageIcon className="size-8 text-emerald-500" />
+      return <ImageIcon className="size-8 text-emerald-500" weight="duotone" />
     default:
-      return <FileIcon className="dark:text-primary size-8 text-stone-700" />
+      return (
+        <FileIcon
+          className="dark:text-primary size-8 text-stone-700"
+          weight="duotone"
+        />
+      )
   }
 }
 
@@ -100,12 +109,18 @@ export function FileCard({ file }: FileCardProps) {
         </p>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 rounded-full">
-            <FileIcon className="text-accent-foreground/80 size-4.5" />
+            <FileIcon
+              weight="duotone"
+              className="text-accent-foreground/80 size-4.5"
+            />
             <span className="text-sm uppercase">{fileExtension}</span>
           </div>
           <div className="bg-border h-[80%] w-[1.5px] rounded-full" />
           <div className="flex items-center gap-1 rounded-full">
-            <FloppyDiskIcon className="text-accent-foreground/80 size-4.5" />
+            <FloppyDiskIcon
+              weight="duotone"
+              className="text-accent-foreground/80 size-4.5"
+            />
             <span className="text-sm">{fileSizeInMB} MB</span>
           </div>
         </div>
@@ -118,7 +133,7 @@ export function FileCardSkeleton() {
   return (
     <div className="border-border flex h-20 w-80 animate-pulse items-center justify-start overflow-hidden rounded-md border">
       <div className={fileIconVariants({ color: 'default' })}>
-        <FileIcon className="size-8 text-stone-700" />
+        <FileIcon weight="duotone" className="size-8 text-stone-700" />
       </div>
       <div className="flex w-full flex-col gap-1 overflow-hidden p-4">
         <div className="bg-accent h-5 w-[80%] rounded-full" />

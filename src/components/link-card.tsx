@@ -16,7 +16,7 @@ export function LinkCard({ link }: LinkCardProps) {
       href={link.link}
     >
       <div className="border-border border-rf flex size-20 shrink-0 items-center justify-center bg-purple-500/40">
-        <LinkSimpleIcon className="size-8 text-purple-500" />
+        <LinkSimpleIcon weight="duotone" className="size-8 text-purple-500" />
       </div>
       <div className="flex w-full flex-col gap-1 overflow-hidden p-4">
         <p className="text-accent-foreground w-full overflow-hidden text-sm font-semibold text-ellipsis whitespace-nowrap">

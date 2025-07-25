@@ -2,6 +2,7 @@
 
 import { AvatarUploadInput } from '@/components/avatar-upload-input'
 import { TextInput } from '@/components/forms/text-input'
+import { Textarea } from '@/components/forms/textarea'
 import { LevelPill } from '@/components/level-pill'
 import { RolePill } from '@/components/role-pill'
 import { useUser } from '@/hooks/contexts/use-user'
@@ -39,23 +40,35 @@ export default function ProfilePage() {
         </div>
         <TextInput
           value={account?.username}
-          placeholder="Usuário"
+          placeholder="Ex: delta_furtado"
           icon={HashIcon}
           label="Usuário"
           readOnly
         />
         <TextInput
           value={account?.profile.name}
-          placeholder="Nome"
+          placeholder="Ex: Delta Furtado"
           icon={UserIcon}
           label="Nome"
           readOnly
         />
         <TextInput
           value={account?.email}
-          placeholder="Email"
+          placeholder="Ex: delta@exemplo.com"
           label="Email"
           icon={AtIcon}
+        />
+        <TextInput
+          value={account?.profile.phoneNumber}
+          placeholder="Ex: (11) 91234-5678"
+          label="Telefone"
+          icon={AtIcon}
+        />
+        <Textarea
+          value={account?.profile.bio}
+          placeholder="Escreva algo sobre você"
+          label="Bio"
+          className="w-full"
         />
       </section>
     </article>
