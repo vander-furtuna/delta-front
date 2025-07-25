@@ -8,31 +8,32 @@ import { DotsThreeVerticalIcon } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo, type ComponentProps } from 'react'
 import { DeltaIcon } from './icons/delta'
+import { useUser } from '@/hooks/contexts/use-user'
 
 type UserAvatarProps = ComponentProps<'button'>
 
 export function UserAvatar({ className, ...rest }: UserAvatarProps) {
-  // const { user } = useUser()
+  const { user } = useUser()
 
-  const { data: user } = useQuery({
-    queryKey: ['user'],
+  const { data: account, isLoading: isUserLoading } = useQuery({
+    queryKey: ['user', user?.id],
     queryFn: () => getUserInfoService(),
   })
 
   const { data: photoProfileUrl } = useQuery({
-    queryKey: ['photoProfileUrl'],
+    queryKey: ['photoProfileUrl', user?.id],
     queryFn: () => getPhotoProfileUrlService(),
     refetchOnWindowFocus: false,
   })
 
   const RoleIcon = useMemo(
-    () => user?.role && getRoleIcon(user.role),
-    [user?.role],
+    () => account?.role && getRoleIcon(account.role),
+    [account?.role],
   )
 
   const firstLetter = useMemo(
-    () => getFirstLetter(user?.username || ''),
-    [user?.username],
+    () => getFirstLetter(account?.username || ''),
+    [account?.username],
   )
 
   return (
@@ -44,10 +45,10 @@ export function UserAvatar({ className, ...rest }: UserAvatarProps) {
       )}
       {...rest}
     >
-      <div className="flex w-full items-center gap-2">
-        <div className="bg-primary/30 ring-primary relative flex size-12 items-center justify-center rounded-sm ring-2">
-          {!user?.profile && (
-            <div className="bg-primary absolute top-0 right-1 size-2 animate-pulse rounded-full" />
+      <div className="flex w-full items-center gap-3">
+        <div className="bg-primary/30 ring-primary/60 relative flex size-12 items-center justify-center rounded-sm ring-2">
+          {!account?.profile && (
+            <div className="bg-primary absolute top-1 right-1 size-2 animate-pulse rounded-full" />
           )}
           <span className="font-heading leading-tight font-semibold uppercase">
             {firstLetter}
@@ -61,23 +62,35 @@ export function UserAvatar({ className, ...rest }: UserAvatarProps) {
           )}
         </div>
         <div className="flex flex-col items-start gap-1">
-          <span className="text-start leading-tight">
-            {getFirstName(user?.profile?.name) || user?.username}
-          </span>
-          <div className="text-muted-foreground flex items-center gap-1 text-xs">
-            {RoleIcon && (
-              <div className="flex size-6 items-center justify-center rounded-full border">
-                <RoleIcon className="text-foreground size-4" />
-              </div>
-            )}
+          {!isUserLoading ? (
+            <span className="text-start leading-tight">
+              {getFirstName(account?.profile?.name) || account?.username}
+            </span>
+          ) : (
+            <div className="bg-foreground/20 h-5 w-24 animate-pulse rounded-full"></div>
+          )}
 
-            <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-full border px-1.5">
-              <DeltaIcon className="fill-primary size-3 shrink-0" />
-              <div className="text-foreground text-xs font-semibold">
-                {user?.profile?.level || 0}
+          {!isUserLoading ? (
+            <div className="text-muted-foreground flex items-center gap-1 text-xs">
+              {RoleIcon && (
+                <div className="flex size-6 items-center justify-center rounded-full border">
+                  <RoleIcon className="text-foreground size-4" />
+                </div>
+              )}
+
+              <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-full border px-1.5">
+                <DeltaIcon className="fill-primary size-3 shrink-0" />
+                <div className="text-foreground text-xs font-semibold">
+                  {account?.profile?.level || 0}
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-muted-foreground flex items-center gap-1 text-xs">
+              <div className="bg-foreground/20 h-5 w-5 animate-pulse rounded-full" />
+              <div className="bg-foreground/20 h-5 w-10 animate-pulse rounded-full" />
+            </div>
+          )}
         </div>
       </div>
       <DotsThreeVerticalIcon className="text-muted-foreground size-6" />

@@ -21,6 +21,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { completeProfileService } from '@/services/account/complete-profile-service'
 import { toast } from 'sonner'
 import { DeltaIcon } from './icons/delta'
+import { queryClient } from '@/lib/query-client'
+import { useUser } from '@/hooks/contexts/use-user'
 
 type CompleteProfileDialogProps = ComponentProps<typeof Dialog>
 
@@ -35,6 +37,8 @@ type CompleteProfileFormData = z.infer<typeof completeProfileSchema>
 export default function CompleteProfileDialog({
   ...props
 }: CompleteProfileDialogProps) {
+  const { user } = useUser()
+
   const { control, handleSubmit } = useForm<CompleteProfileFormData>({
     resolver: zodResolver(completeProfileSchema),
     defaultValues: {
@@ -53,13 +57,17 @@ export default function CompleteProfileDialog({
           bio,
         })
 
+        queryClient.refetchQueries({
+          queryKey: ['user', user?.id],
+        })
+
         toast.success('Perfil completado com sucesso!')
       } catch (error) {
         console.error('Error completing profile:', error)
         toast.error('Não foi possível completar perfil. :( Tente novamente.')
       }
     },
-    [],
+    [user?.id],
   )
 
   return (
