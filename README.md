@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">
+<img width="100%" alt="Octagon Banner" src="https://github.com/user-attachments/assets/2e28cc7a-4ff0-4f7f-88c4-eec74d8ed975">
+</h1>
 
-## Getting Started
+<h3 align="center">
+Δ Delta
+</h3>
 
-First, run the development server:
+
+<p align="center">Aprenda, ensine e pratique com o Delta.</p>
+
+<p align="center">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/vander-furtuna/delta-front?color=%23ffd96e">
+  
+  <a href="https://github.com/matheralvs/todo-list/commits/main">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/vander-furtuna/delta-front?color=%23bde7ff">
+  </a>
+
+  <a href="https://github.com/matheralvs/todo-list/issues">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/vander-furtuna/delta-front?color=%23dabcff">
+  </a>
+</p>
+
+## ✅ Sobre o projeto
+
+Delta App é uma plataforma web que visa facilitar a gestão e acesso monitorias e atividades de cursos dentro da Universidade Federal do Ceará.
+
+O projeto foi desenvolvido durante a disciplina de Engenharia de Sofwate em 2025.1
+
+## ⚙️ Tecnologias
+
+Tecnologias utilizadas no desenvolvimento do site:
+
+
+<div align="center"> 
+  <div style="display: inline_block"><br>
+  <img align="center" alt="TypeScript icon" title="TypeScript" height="56" width="56" src="https://user-images.githubusercontent.com/101757815/218615230-79d0d48c-800f-42ee-aa31-e65631f4a4d9.svg">
+  <img align="center" alt="React.js icon" title="React.js" height="56" width="56" src="https://user-images.githubusercontent.com/101757815/218615819-bd5190f0-5501-4cb2-bffc-86f0b2d2039e.svg">
+     <img align="center" alt="Next.js icon" title="Next.js" height="56" width="56" src="https://user-images.githubusercontent.com/101757815/218617171-46ee14bb-7a75-4068-b174-afd57d835c72.svg">
+  <img align="center" alt="Tailwind CSS Icon" title="Tailwind CSS" height="56" width="56" src="https://github.com/user-attachments/assets/92dee76c-e17a-4b13-8d5e-ef2e3fc470a5">
+    </div>
+</div>
+
+
+## 🚀 Rodando o projeto
+
+### 1. Pré‑requisitos
+
+- Node.js (versão ≥ 16)
+- `pnpm` instalado globalmente:
+  ```bash
+  npm install -g pnpm
+  ```
+
+### 2. Clonar o repositório
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/vander-furtuna/delta-front.git
+cd delta-front
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Criar o arquivo de variáveis de ambiente
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Renomeie ou copie o template `.env.example` para `.env` na raiz do projeto:
+   ```bash
+   cp .env.example .env
+   ```
+2. Abra o `.env` e defina as suas variáveis (exemplo):
+   ```env
+   NEXT_PUBLIC_API_URL=https://api.exemplo.com
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> **Dica:** mantenha o arquivo `.env` fora do controle de versão adicionando `/.env` no `.gitignore`.
 
-## Learn More
+### 4. Instalar dependências
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 5. Rodar em modo de desenvolvimento
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev
+```
 
-## Deploy on Vercel
+Acesse [http://localhost:3000](http://localhost:3000) no navegador.\
+A cada salvamento de arquivo, o Next.js recarrega automaticamente.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 6. Build e produção
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Gerar build otimizado:
+   ```bash
+   pnpm build
+   ```
+2. Iniciar em modo de produção:
+   ```bash
+   pnpm start
+   ```
+
+Por padrão, o app ficará disponível em [http://localhost:3000](http://localhost:3000).
+
+
